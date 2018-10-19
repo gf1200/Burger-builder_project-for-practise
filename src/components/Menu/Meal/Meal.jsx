@@ -1,32 +1,31 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-class MealMenu extends Component {
+class Meal extends Component {
   render() {
     let meal = null;
 
     switch (this.props.type) {
       case "breakfast":
-        meal = <div>breakfast</div>;
+        meal = <li className="collection-item">breakfast</li>;
         break;
 
       case "lunch":
-        meal = <div>lunch</div>;
+        meal = <li className="collection-item">lunch</li>;
         break;
 
       case "supper":
-        meal = <div>supper</div>;
+        meal = <li className="collection-item">breakfast</li>;
         break;
 
       default:
         meal = null;
-
-        return meal;
     }
+    return meal;
   }
 }
 
-MealMenu.propTypes = {
-  type: PropTypes.type.string.isRequirwd
+Meal.propTypes = {
+  type: PropTypes.string.isRequired
 };
-export default MealMenu;
+export default Meal;
