@@ -1,6 +1,6 @@
 import React from "react";
 import Meal from "./Meal/Meal";
-const menu = ({ meals }) => {
+const menu = ({ meals, totalMeals }) => {
   let transformedMeals = Object.keys(meals)
     .map(mealKey => {
       return [...Array(meals[mealKey])].map((_, i) => {
@@ -24,7 +24,8 @@ const menu = ({ meals }) => {
   return (
     <ul className="collection with-header">
       <li className="collection-header">
-        <h4>Menu</h4>
+        <h4>Menu</h4>{" "}
+        <span class="badge teal lighten-1 white-text">total: {totalMeals}</span>
       </li>
       {transformedMeals}
     </ul>
