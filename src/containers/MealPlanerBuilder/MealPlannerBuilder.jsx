@@ -5,9 +5,9 @@ import Menu from "../../components/Menu/Menu";
 class MealPlannerBuilder extends Component {
   state = {
     meals: {
-      breakfast: 1,
-      lunch: 2,
-      supper: 1
+      breakfast: 0,
+      lunch: 0,
+      supper: 0
     }
   };
 
