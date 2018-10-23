@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import Aux from "./../../hoc/ReactAux";
-import Menu from "../../components/Menu/Menu";
-import BuildControls from "../../components/Menu/BuildControls/BuildControls";
-import Modal from "../../components/UI/Modal/Modal";
-import MealSummery from "./../../components/Menu/MealSummery/MealSummery";
+import React, { Component } from 'react';
+import Aux from './../../hoc/ReactAux';
+import Menu from '../../components/Menu/Menu';
+import BuildControls from '../../components/Menu/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import MealSummery from './../../components/Menu/MealSummery/MealSummery';
 
 class MealPlannerBuilder extends Component {
   state = {

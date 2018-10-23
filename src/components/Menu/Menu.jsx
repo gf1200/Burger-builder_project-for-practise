@@ -1,5 +1,5 @@
-import React from "react";
-import Meal from "./Meal/Meal";
+import React from 'react';
+import Meal from './Meal/Meal';
 const menu = ({ meals, totalMeals }) => {
   let transformedMeals = Object.keys(meals)
     .map(mealKey => {
@@ -24,8 +24,10 @@ const menu = ({ meals, totalMeals }) => {
   return (
     <ul className="collection with-header">
       <li className="collection-header">
-        <h4>Menu</h4>{" "}
-        <span class="badge teal lighten-1 white-text">total: {totalMeals}</span>
+        <h4>Menu</h4>{' '}
+        <span className="badge teal lighten-1 white-text">
+          total: {totalMeals}
+        </span>
       </li>
       {transformedMeals}
     </ul>

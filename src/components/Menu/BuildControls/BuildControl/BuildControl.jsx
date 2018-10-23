@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const buildControl = ({ label, added, removed, disabled }) => (
   <li className="collection-item">
@@ -8,7 +8,7 @@ const buildControl = ({ label, added, removed, disabled }) => (
       <button className="waves-effect waves-light btn-small" onClick={added}>
         <i className="material-icons left">add</i>
         Add
-      </button>{" "}
+      </button>{' '}
       <button
         className="waves-effect waves-light btn-small"
         onClick={removed}

@@ -1,17 +1,17 @@
-import React from "react";
-import M from "materialize-css/dist/js/materialize";
+import React from 'react';
+import M from 'materialize-css/dist/js/materialize';
 
-document.addEventListener("DOMContentLoaded", function() {
-  var elems = document.querySelectorAll(".modal");
-  var instances = M.Modal.init(elems);
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.modal');
+  M.Modal.init(elems);
 });
 
 const modal = ({ modalId, children }) => {
   return (
-    <div id={modalId} class="modal">
-      <div class="modal-content">{children}</div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+    <div id={modalId} className="modal">
+      <div className="modal-content">{children}</div>
+      <div className="modal-footer">
+        <a href="#!" className="modal-close waves-effect waves-green btn-flat">
           Agree
         </a>
       </div>

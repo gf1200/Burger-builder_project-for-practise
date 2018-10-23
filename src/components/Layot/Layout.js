@@ -1,21 +1,14 @@
-import React from "react";
-import Aux from "./../../hoc/ReactAux";
+import React from 'react';
+import Aux from './../../hoc/ReactAux';
+import Toolbar from '../Navigation/Toolbar/Toolbar';
 
 const layout = ({ children }) => (
   <Aux>
-    <nav>
-      <div className="nav-wrapper cyan darken-4">
-        <a href="index.html" className="brand-logo center">
-          Daily meal planner
-        </a>
-        <ul id="nav-mobile" className="left hide-on-med-and-down" />
-      </div>
-    </nav>
-
+    <Toolbar />
     <main className="container">{children}</main>
 
     <footer>
-      <div className="footer-copyright cyan darken-4">
+      <div className="footer-copyright cyan darken-4 ">
         <div className="container center-align white-text ">
           2018 Daily meal planner. Create by gf1200
         </div>

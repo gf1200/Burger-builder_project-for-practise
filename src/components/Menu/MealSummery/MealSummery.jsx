@@ -1,14 +1,15 @@
-import React from "react";
-import Aux from "../../../hoc/ReactAux";
+import React from 'react';
 
 const mealSummery = ({ meals }) => {
   const mealsSummery = Object.keys(meals).map(mealKey => (
-    <li class="collection-item">{mealKey}</li>
+    <li key={mealKey} className="collection-item">
+      {mealKey}
+    </li>
   ));
 
   return (
-    <ul class="collection with-header">
-      <li class="collection-header">
+    <ul className="collection with-header">
+      <li className="collection-header">
         <h4>Meal summery</h4>
       </li>
       {mealsSummery}
