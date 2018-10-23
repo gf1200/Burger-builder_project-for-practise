@@ -7,7 +7,13 @@ const controls = [
   { label: "Supper", type: "supper" }
 ];
 
-const buildControl = ({ mealeAdded, mealRemoved, disabld, confirmDisabld }) => (
+const buildControl = ({
+  mealeAdded,
+  mealRemoved,
+  disabld,
+  confirmDisabld,
+  target
+}) => (
   <ul className="collection z-depth-5">
     {controls.map(ctrl => (
       <BuildControl
@@ -20,8 +26,9 @@ const buildControl = ({ mealeAdded, mealRemoved, disabld, confirmDisabld }) => (
     ))}
     <li className="collection-item">
       <button
-        className="waves-effect waves-light btn-small"
+        className="waves-effect waves-light btn-small modal-trigger"
         disabled={!confirmDisabld}
+        data-target={target}
       >
         Confirm plan
       </button>

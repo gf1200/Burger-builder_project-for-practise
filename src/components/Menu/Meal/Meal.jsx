@@ -15,7 +15,7 @@ class Meal extends Component {
         break;
 
       case "supper":
-        meal = <li className="collection-item">breakfast</li>;
+        meal = <li className="collection-item">supper</li>;
         break;
 
       default:

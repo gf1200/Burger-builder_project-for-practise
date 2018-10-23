@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Aux from "./../../hoc/ReactAux";
 import Menu from "../../components/Menu/Menu";
 import BuildControls from "../../components/Menu/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import MealSummery from "./../../components/Menu/MealSummery/MealSummery";
 
 class MealPlannerBuilder extends Component {
   state = {
@@ -61,12 +63,17 @@ class MealPlannerBuilder extends Component {
 
     return (
       <Aux>
+        <Modal modalId="modal1">
+          <MealSummery meals={this.state.meals} />
+        </Modal>
+
         <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} />
         <BuildControls
           mealeAdded={this.addMealHandler}
           mealRemoved={this.removeMealHandler}
           disabld={disableInfo}
           confirmDisabld={this.state.confirmeDisabld}
+          target="modal1"
         />
       </Aux>
     );
