@@ -4,7 +4,7 @@ const buildControl = ({ label, added, removed, disabled }) => (
   <li className="collection-item">
     <span className="badge">0</span>
     <span className="title">{label}</span>
-    <p>
+    <div>
       <button className="waves-effect waves-light btn-small" onClick={added}>
         <i className="material-icons left">add</i>
         Add
@@ -17,7 +17,7 @@ const buildControl = ({ label, added, removed, disabled }) => (
         <i className="material-icons left">remove</i>
         Remove
       </button>
-    </p>
+    </div>
   </li>
 );
 export default buildControl;

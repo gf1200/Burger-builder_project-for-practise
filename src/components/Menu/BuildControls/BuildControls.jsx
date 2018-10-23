@@ -7,7 +7,7 @@ const controls = [
   { label: "Supper", type: "supper" }
 ];
 
-const buildControl = ({ mealeAdded, mealRemoved, disabld }) => (
+const buildControl = ({ mealeAdded, mealRemoved, disabld, confirmDisabld }) => (
   <ul className="collection z-depth-5">
     {controls.map(ctrl => (
       <BuildControl
@@ -18,6 +18,14 @@ const buildControl = ({ mealeAdded, mealRemoved, disabld }) => (
         disabled={disabld[ctrl.type]}
       />
     ))}
+    <li className="collection-item">
+      <button
+        className="waves-effect waves-light btn-small"
+        disabled={!confirmDisabld}
+      >
+        Confirm plan
+      </button>
+    </li>
   </ul>
 );
 

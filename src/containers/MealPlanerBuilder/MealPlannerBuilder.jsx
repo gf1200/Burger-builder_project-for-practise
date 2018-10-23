@@ -10,7 +10,19 @@ class MealPlannerBuilder extends Component {
       lunch: 0,
       supper: 0
     },
-    totalMeals: 0
+    totalMeals: 0,
+    confirmeDisabld: false
+  };
+  updateConfirmBtn = meals => {
+    const sum = Object.keys(meals)
+      .map(mealKey => {
+        return meals[mealKey];
+      })
+      .reduce((sum, next) => {
+        return sum + next;
+      }, 0);
+
+    this.setState({ confirmeDisabld: sum > 0 });
   };
 
   addMealHandler = type => {
@@ -21,7 +33,9 @@ class MealPlannerBuilder extends Component {
     updateMeals[type] = updateCount;
     const amountAddition = this.state.totalMeals + 1;
     this.setState({ totalMeals: amountAddition, meals: updateMeals });
+    this.updateConfirmBtn(updateMeals);
   };
+
   removeMealHandler = type => {
     const oldCount = this.state.meals[type];
     if (oldCount <= 0) {
@@ -34,6 +48,7 @@ class MealPlannerBuilder extends Component {
     updateMeals[type] = updateCount;
     const amountDeduction = this.state.totalMeals - 1;
     this.setState({ totalMeals: amountDeduction, meals: updateMeals });
+    this.updateConfirmBtn(updateMeals);
   };
 
   render() {
@@ -51,6 +66,7 @@ class MealPlannerBuilder extends Component {
           mealeAdded={this.addMealHandler}
           mealRemoved={this.removeMealHandler}
           disabld={disableInfo}
+          confirmDisabld={this.state.confirmeDisabld}
         />
       </Aux>
     );
