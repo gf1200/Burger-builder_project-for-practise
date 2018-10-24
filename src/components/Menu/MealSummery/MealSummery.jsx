@@ -1,6 +1,6 @@
 import React from 'react';
 
-const mealSummery = ({ meals }) => {
+const MealSummery = ({ meals }) => {
   const mealsSummery = Object.keys(meals).map(mealKey => (
     <li key={mealKey} className="collection-item">
       {mealKey}
@@ -16,4 +16,5 @@ const mealSummery = ({ meals }) => {
     </ul>
   );
 };
-export default mealSummery;
+
+export default MealSummery;

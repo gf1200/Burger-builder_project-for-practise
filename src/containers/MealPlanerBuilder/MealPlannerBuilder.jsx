@@ -13,7 +13,16 @@ class MealPlannerBuilder extends Component {
       supper: 0
     },
     totalMeals: 0,
-    confirmeDisabld: false
+    confirmeDisabld: false,
+    summaryOpened: false
+  };
+
+  summaryHandler = () => {
+    this.setState({ summaryOpened: true });
+  };
+
+  summaryClose = () => {
+    this.setState({ summaryOpened: false });
   };
   updateConfirmBtn = meals => {
     const sum = Object.keys(meals)
@@ -63,7 +72,11 @@ class MealPlannerBuilder extends Component {
 
     return (
       <Aux>
-        <Modal modalId="modal1">
+        <Modal
+          modalId="modal1"
+          show={this.state.summaryOpened}
+          close={this.summaryClose}
+        >
           <MealSummery meals={this.state.meals} />
         </Modal>
 
@@ -74,6 +87,7 @@ class MealPlannerBuilder extends Component {
           disabld={disableInfo}
           confirmDisabld={this.state.confirmeDisabld}
           target="modal1"
+          modalShow={this.summaryHandler}
         />
       </Aux>
     );

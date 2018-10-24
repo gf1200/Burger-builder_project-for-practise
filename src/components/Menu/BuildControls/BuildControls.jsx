@@ -1,10 +1,10 @@
-import React from "react";
-import BuildControl from "./BuildControl/BuildControl";
+import React from 'react';
+import BuildControl from './BuildControl/BuildControl';
 
 const controls = [
-  { label: "Breakfast", type: "breakfast" },
-  { label: "Lunch", type: "lunch" },
-  { label: "Supper", type: "supper" }
+  { label: 'Breakfast', type: 'breakfast' },
+  { label: 'Lunch', type: 'lunch' },
+  { label: 'Supper', type: 'supper' }
 ];
 
 const buildControl = ({
@@ -12,7 +12,8 @@ const buildControl = ({
   mealRemoved,
   disabld,
   confirmDisabld,
-  target
+  target,
+  modalShow
 }) => (
   <ul className="collection z-depth-5">
     {controls.map(ctrl => (
@@ -29,6 +30,7 @@ const buildControl = ({
         className="waves-effect waves-light btn-small modal-trigger"
         disabled={!confirmDisabld}
         data-target={target}
+        onClick={() => modalShow()}
       >
         Confirm plan
       </button>
