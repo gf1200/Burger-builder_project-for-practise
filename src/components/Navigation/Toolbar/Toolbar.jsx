@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigatIonItems from './../NavigationItems/NavigatIonItems';
-import Logo from '../../Layot/Logo/Logo';
+import Logo from '../../Logo/Logo';
 import SideNave from '../SIdeNave/SideNave';
 
 const toolbar = props => (
