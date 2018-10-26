@@ -1,11 +1,13 @@
 import React from 'react';
 
 const MealSummery = ({ meals }) => {
-  const mealsSummery = Object.keys(meals).map(mealKey => (
-    <li key={mealKey} className="collection-item">
-      {mealKey}
-    </li>
-  ));
+  const mealsSummery = Object.keys(meals).map(mealKey =>
+    [...Array(meals[mealKey])].map((_, i) => (
+      <li key={mealKey + i} className="collection-item">
+        {mealKey}
+      </li>
+    ))
+  );
 
   return (
     <ul className="collection with-header">

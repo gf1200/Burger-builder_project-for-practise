@@ -26,12 +26,12 @@ class Modal extends Component {
       <div id={this.props.modalId} className="modal">
         <div className="modal-content">{this.props.children}</div>
         <div className="modal-footer">
-          <a
-            href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+          <button
+            className="modal-close btn waves-effect waves-light"
+            onClick={this.props.confirm}
           >
-            Agree
-          </a>
+            confirm plan
+          </button>
         </div>
       </div>
     );
