@@ -2,13 +2,14 @@
 
 ## Features
 
-:star: This app will have feature to create daily meal plans.
+:star: This well be create daily meal plans.
 
 ## ToolS
 
-- SASS
+- SASS module
 - JavaScript
 - React
+- FireBase
 
 ## Kanban board
 
