@@ -32,7 +32,7 @@ const buildControl = ({
         data-target={target}
         onClick={() => modalShow()}
       >
-        Confirm plan
+        Summary plan
       </button>
     </li>
   </ul>
