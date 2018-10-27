@@ -6,6 +6,9 @@ import Modal from '../../components/UI/Modal/Modal';
 import MealSummery from './../../components/Menu/MealSummery/MealSummery';
 
 import axios from '../../axios-orders';
+import ModalCloseBTN from '../../components/UI/Modal/ModalCloseBTN';
+import ModalFoter from '../../components/UI/Modal/ModalFoter';
+import PrimaryBTN from '../../components/UI/PrimaryBTN';
 
 class MealPlannerBuilder extends Component {
   state = {
@@ -97,11 +100,17 @@ class MealPlannerBuilder extends Component {
       <Aux>
         <Modal
           modalId="modal1"
-          show={this.state.summaryOpened}
-          close={this.summaryClose}
-          confirm={this.confirmMealPlan}
+          whenClosed={this.summaryClose.bind(this)}
+          isShow={this.state.summaryOpened}
         >
           <MealSummery meals={this.state.meals} />
+          <ModalFoter>
+            <ModalCloseBTN name="close" />
+            <PrimaryBTN
+              name="confirm plan"
+              whenClicked={this.confirmMealPlan}
+            />
+          </ModalFoter>
         </Modal>
 
         <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} />
