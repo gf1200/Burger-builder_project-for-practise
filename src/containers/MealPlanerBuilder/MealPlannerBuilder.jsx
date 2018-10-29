@@ -3,12 +3,12 @@ import Menu from '../../components/Menu/Menu';
 import BuildControls from '../../components/Menu/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import MealSummery from './../../components/Menu/MealSummery/MealSummery';
-
 import axios from '../../axios-orders';
 import ModalCloseBTN from '../../components/UI/Modal/ModalCloseBTN';
 import ModalFoter from '../../components/UI/Modal/ModalFoter';
 import PrimaryBTN from '../../components/UI/PrimaryBTN';
 import Spiner from './../../components/UI/Spiner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class MealPlannerBuilder extends Component {
   state = {
@@ -134,4 +134,4 @@ class MealPlannerBuilder extends Component {
   }
 }
 
-export default MealPlannerBuilder;
+export default withErrorHandler(MealPlannerBuilder);
