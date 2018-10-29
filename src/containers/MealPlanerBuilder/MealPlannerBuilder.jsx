@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Aux from './../../hoc/ReactAux/ReactAux';
 import Menu from '../../components/Menu/Menu';
 import BuildControls from '../../components/Menu/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -9,6 +8,7 @@ import axios from '../../axios-orders';
 import ModalCloseBTN from '../../components/UI/Modal/ModalCloseBTN';
 import ModalFoter from '../../components/UI/Modal/ModalFoter';
 import PrimaryBTN from '../../components/UI/PrimaryBTN';
+import Spiner from './../../components/UI/Spiner';
 
 class MealPlannerBuilder extends Component {
   state = {
@@ -19,10 +19,12 @@ class MealPlannerBuilder extends Component {
     },
     totalMeals: 0,
     summaryDisabld: false,
-    summaryOpened: false
+    summaryOpened: false,
+    loading: false
   };
 
   confirmMealPlan = () => {
+    this.setState({ loading: true });
     const plan = {
       meals: this.state.meals,
       customer: {
@@ -39,8 +41,8 @@ class MealPlannerBuilder extends Component {
 
     axios
       .post('orders.json', plan)
-      .then(response => console.log(response))
-      .catch(err => console.log(err));
+      .then(response => this.setState({ loading: false }))
+      .catch(err => this.setState({ loading: false }));
   };
 
   summaryHandler = () => {
@@ -96,14 +98,19 @@ class MealPlannerBuilder extends Component {
       disableInfo[key] = disableInfo[key] <= 0;
     }
 
+    let mealSummery = <MealSummery meals={this.state.meals} />;
+    if (this.state.loading) {
+      mealSummery = <Spiner />;
+    }
+
     return (
-      <Aux>
+      <React.Fragment>
         <Modal
           modalId="modal1"
           whenClosed={this.summaryClose.bind(this)}
           isShow={this.state.summaryOpened}
         >
-          <MealSummery meals={this.state.meals} />
+          {mealSummery}
           <ModalFoter>
             <ModalCloseBTN name="close" />
             <PrimaryBTN
@@ -122,7 +129,7 @@ class MealPlannerBuilder extends Component {
           target="modal1"
           modalShow={this.summaryHandler}
         />
-      </Aux>
+      </React.Fragment>
     );
   }
 }

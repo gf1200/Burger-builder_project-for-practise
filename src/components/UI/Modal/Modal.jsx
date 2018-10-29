@@ -3,7 +3,10 @@ import M from 'materialize-css/';
 
 class Modal extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.isShow !== this.props.isShow) {
+    if (
+      nextProps.isShow !== this.props.isShow ||
+      nextProps.children !== this.props.children
+    ) {
       return true;
     }
     return false;
