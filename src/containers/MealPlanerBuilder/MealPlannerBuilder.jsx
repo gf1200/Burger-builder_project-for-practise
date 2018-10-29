@@ -12,16 +12,22 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class MealPlannerBuilder extends Component {
   state = {
-    meals: {
-      breakfast: 0,
-      lunch: 0,
-      supper: 0
-    },
+    meals: null,
     totalMeals: 0,
     summaryDisabld: false,
     summaryOpened: false,
-    loading: false
+    loading: false,
+    error: false
   };
+  componentDidMount() {
+    this.setState({ loading: true });
+    axios
+      .get('meals.json')
+      .then(res => {
+        this.setState({ meals: res.data, loading: false });
+      })
+      .catch(error => this.setState({ error: true }));
+  }
 
   confirmMealPlan = () => {
     this.setState({ loading: true });
@@ -98,7 +104,26 @@ class MealPlannerBuilder extends Component {
       disableInfo[key] = disableInfo[key] <= 0;
     }
 
-    let mealSummery = <MealSummery meals={this.state.meals} />;
+    let mealSummery = null;
+    let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
+
+    if (this.state.meals) {
+      mealSummery = <MealSummery meals={this.state.meals} />;
+      meals = (
+        <React.Fragment>
+          <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} />
+          <BuildControls
+            mealeAdded={this.addMealHandler}
+            mealRemoved={this.removeMealHandler}
+            disabld={disableInfo}
+            confirmDisabld={this.state.confirmeDisabld}
+            target="modal1"
+            modalShow={this.summaryHandler}
+          />
+        </React.Fragment>
+      );
+    }
+
     if (this.state.loading) {
       mealSummery = <Spiner />;
     }
@@ -119,19 +144,10 @@ class MealPlannerBuilder extends Component {
             />
           </ModalFoter>
         </Modal>
-
-        <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} />
-        <BuildControls
-          mealeAdded={this.addMealHandler}
-          mealRemoved={this.removeMealHandler}
-          disabld={disableInfo}
-          confirmDisabld={this.state.confirmeDisabld}
-          target="modal1"
-          modalShow={this.summaryHandler}
-        />
+        {meals}
       </React.Fragment>
     );
   }
 }
 
-export default withErrorHandler(MealPlannerBuilder);
+export default withErrorHandler(MealPlannerBuilder, axios);
