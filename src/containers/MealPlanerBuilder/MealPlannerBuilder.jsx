@@ -118,8 +118,7 @@ class MealPlannerBuilder extends Component {
             mealRemoved={this.removeMealHandler}
             disabld={disableInfo}
             confirmDisabld={this.state.confirmeDisabld}
-            target="modal1"
-            modalShow={this.summaryHandler}
+            target="modal2"
           />
         </React.Fragment>
       );
@@ -132,9 +131,10 @@ class MealPlannerBuilder extends Component {
     return (
       <React.Fragment>
         <Modal
+          modalType="bottom-sheet"
           modalId="modal1"
           whenClosed={this.summaryClose.bind(this)}
-          isShow={this.state.summaryOpened}
+          isShow={true}
         >
           {mealSummery}
           <ModalFoter>
@@ -146,7 +146,7 @@ class MealPlannerBuilder extends Component {
           </ModalFoter>
         </Modal>
         {meals}
-        <AddBTN />
+        <AddBTN modalShow={this.summaryHandler} target="modal1" />
       </React.Fragment>
     );
   }

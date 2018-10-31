@@ -30,7 +30,6 @@ const buildControl = ({
         className="waves-effect waves-light btn-small modal-trigger"
         disabled={!confirmDisabld}
         data-target={target}
-        onClick={modalShow}
       >
         Summary plan
       </button>
