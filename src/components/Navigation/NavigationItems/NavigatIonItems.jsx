@@ -1,14 +1,14 @@
 import React from 'react';
 import NavigationItem from './../NavigationItem/NavigationItem';
-const navigatIonItems = props => (
-  <ul className="left hide-on-med-and-down">
+const NavigatIonItems = props => (
+  <React.Fragment>
     <NavigationItem link="/" active={true}>
       New plan
     </NavigationItem>
     <NavigationItem link="/" active={false}>
-      Checkout
+      Current
     </NavigationItem>
-  </ul>
+  </React.Fragment>
 );
 
-export default navigatIonItems;
+export default NavigatIonItems;

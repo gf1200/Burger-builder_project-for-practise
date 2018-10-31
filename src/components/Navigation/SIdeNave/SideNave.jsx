@@ -1,6 +1,6 @@
 import React from 'react';
 import M from 'materialize-css';
-import NavigationItem from '../NavigationItem/NavigationItem';
+import NavigatIonItems from '../NavigationItems/NavigatIonItems';
 
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.sidenav');
@@ -9,12 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const SideNave = () => (
   <ul className="sidenav" id="mobile-demo">
-    <NavigationItem link="/" active={true}>
-      New plan
-    </NavigationItem>
-    <NavigationItem link="/" active={false}>
-      Checkout
-    </NavigationItem>
+    <NavigatIonItems />
   </ul>
 );
 

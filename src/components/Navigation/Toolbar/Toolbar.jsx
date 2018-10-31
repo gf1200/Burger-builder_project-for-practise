@@ -1,7 +1,8 @@
 import React from 'react';
-import NavigatIonItems from './../NavigationItems/NavigatIonItems';
+
 import Logo from '../../Logo/Logo';
 import SideNave from '../SIdeNave/SideNave';
+import ToolbarNav from '../ToolbarNav/ToolbarNav';
 
 const toolbar = props => (
   <nav className="z-depth-0">
@@ -13,7 +14,7 @@ const toolbar = props => (
       <a href="!#" data-target="mobile-demo" className="sidenav-trigger">
         <i className="material-icons">menu</i>
       </a>
-      <NavigatIonItems />
+      <ToolbarNav />
       <SideNave />
     </div>
   </nav>
