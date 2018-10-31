@@ -9,6 +9,7 @@ import ModalFoter from '../../components/UI/Modal/ModalFoter';
 import PrimaryBTN from '../../components/UI/PrimaryBTN';
 import Spiner from './../../components/UI/Spiner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import AddBTN from '../../components/UI/AddBTN/AddBTN';
 
 class MealPlannerBuilder extends Component {
   state = {
@@ -145,6 +146,7 @@ class MealPlannerBuilder extends Component {
           </ModalFoter>
         </Modal>
         {meals}
+        <AddBTN />
       </React.Fragment>
     );
   }

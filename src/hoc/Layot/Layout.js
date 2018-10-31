@@ -1,9 +1,9 @@
 import React from 'react';
-import Aux from './../ReactAux/ReactAux';
 import Toolbar from './../../components/Navigation/Toolbar/Toolbar';
+// import style from './Layout.module'
 
 const layout = ({ children }) => (
-  <Aux>
+  <React.Fragment>
     <Toolbar />
     <main className="container">{children}</main>
 
@@ -14,7 +14,7 @@ const layout = ({ children }) => (
         </div>
       </div>
     </footer>
-  </Aux>
+  </React.Fragment>
 );
 
 export default layout;
