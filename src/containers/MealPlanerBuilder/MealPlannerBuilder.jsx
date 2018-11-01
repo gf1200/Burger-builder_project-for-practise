@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Menu from '../../components/Menu/Menu';
 import BuildControls from '../../components/Menu/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
-import MealSummery from './../../components/Menu/MealSummery/MealSummery';
+import MealToChoose from './../../components/Menu/MealToChoose/MealToChoose';
 import axios from '../../axios-orders';
 import ModalCloseBTN from '../../components/UI/Modal/ModalCloseBTN';
 import ModalFoter from '../../components/UI/Modal/ModalFoter';
@@ -10,6 +10,7 @@ import PrimaryBTN from '../../components/UI/PrimaryBTN';
 import Spiner from './../../components/UI/Spiner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import AddBTN from '../../components/UI/AddBTN/AddBTN';
+import ChosenMeals from '../../components/Menu/ChosenMeals';
 
 class MealPlannerBuilder extends Component {
   state = {
@@ -23,9 +24,14 @@ class MealPlannerBuilder extends Component {
   componentDidMount() {
     this.setState({ loading: true });
     axios
-      .get('meals.json')
+      .get('meals-2.json')
       .then(res => {
-        this.setState({ meals: res.data, loading: false });
+        const meals = Object.keys(res.data).map(key => ({
+          id: key,
+          ...res.data[key]
+        }));
+
+        this.setState({ meals, loading: false });
       })
       .catch(error => this.setState({ error: true }));
   }
@@ -105,27 +111,28 @@ class MealPlannerBuilder extends Component {
       disableInfo[key] = disableInfo[key] <= 0;
     }
 
-    let mealSummery = null;
+    let mealToChoose = null;
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
     if (this.state.meals) {
-      mealSummery = <MealSummery meals={this.state.meals} />;
+      mealToChoose = <MealToChoose meals={this.state.meals} />;
       meals = (
         <React.Fragment>
-          <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} />
-          <BuildControls
+          <ChosenMeals meals={this.state.meals} />
+          {/* <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} /> */}
+          {/* <BuildControls
             mealeAdded={this.addMealHandler}
             mealRemoved={this.removeMealHandler}
             disabld={disableInfo}
             confirmDisabld={this.state.confirmeDisabld}
             target="modal2"
-          />
+          /> */}
         </React.Fragment>
       );
     }
 
     if (this.state.loading) {
-      mealSummery = <Spiner />;
+      mealToChoose = <Spiner />;
     }
 
     return (
@@ -136,7 +143,7 @@ class MealPlannerBuilder extends Component {
           whenClosed={this.summaryClose.bind(this)}
           isShow={true}
         >
-          {mealSummery}
+          {mealToChoose}
           <ModalFoter>
             <ModalCloseBTN name="close" />
             <PrimaryBTN

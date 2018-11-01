@@ -6,12 +6,12 @@ const AddBTN = ({ modalShow, target }) => {
     <button
       onClick={modalShow}
       data-target={target}
-      class={[
-        'btn-floating btn-large waves-effect waves-light z-depth-4 modal-trigger ' +
+      className={[
+        'btn-floating btn-large teal waves-effect waves-light z-depth-4 modal-trigger ' +
           style.add
       ].join(' ')}
     >
-      <i class="material-icons">add</i>
+      <i className="material-icons">add</i>
     </button>
   );
 };

@@ -5,8 +5,8 @@ import SideNave from '../SIdeNave/SideNave';
 import ToolbarNav from '../ToolbarNav/ToolbarNav';
 
 const toolbar = props => (
-  <nav className="z-depth-0">
-    <div className="nav-wrapper cyan darken-4 ">
+  <nav className="z-depth-1">
+    <div className="nav-wrapper teal ">
       <a href="index.html" className="brand-logo center">
         <Logo size="5rem" />
         Meal planner

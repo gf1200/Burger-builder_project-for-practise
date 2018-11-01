@@ -8,9 +8,12 @@ const layout = ({ children }) => (
     <main className="container">{children}</main>
 
     <footer>
-      <div className="footer-copyright cyan darken-4 ">
-        <div className="container center-align white-text ">
-          2018 Daily meal planner. Create by gf1200
+      <div
+        className="footer-copyright teal lighten-5 valign-wrapper"
+        style={{ height: '4rem' }}
+      >
+        <div className="container center-align teal-text">
+          2018 Daily meals planner. Create by gf1200
         </div>
       </div>
     </footer>
