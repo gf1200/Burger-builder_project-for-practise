@@ -15,12 +15,32 @@ import ChosenMeals from '../../components/Menu/ChosenMeals';
 class MealPlannerBuilder extends Component {
   state = {
     meals: null,
+    chosenMeals: [],
     totalMeals: 0,
     summaryDisabld: false,
     summaryOpened: false,
     loading: false,
     error: false
   };
+
+  onAddMeal(meal) {
+    this.setState(state => {
+      const addNewMeal = {
+        ...meal,
+        id: meal.id + '_' + state.chosenMeals.length
+      };
+      const chosenMeals = [...state.chosenMeals, addNewMeal];
+      return { chosenMeals };
+    });
+  }
+
+  onDeleteMeal(id) {
+    this.setState(state => {
+      const chosenMeals = state.chosenMeals.filter(meal => meal.id !== id);
+      return { chosenMeals };
+    });
+  }
+
   componentDidMount() {
     this.setState({ loading: true });
     axios
@@ -115,10 +135,18 @@ class MealPlannerBuilder extends Component {
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
     if (this.state.meals) {
-      mealToChoose = <MealToChoose meals={this.state.meals} />;
+      mealToChoose = (
+        <MealToChoose
+          meals={this.state.meals}
+          addMeal={this.onAddMeal.bind(this)}
+        />
+      );
       meals = (
         <React.Fragment>
-          <ChosenMeals meals={this.state.meals} />
+          <ChosenMeals
+            meals={this.state.chosenMeals}
+            deleteMeal={this.onDeleteMeal.bind(this)}
+          />
           {/* <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} /> */}
           {/* <BuildControls
             mealeAdded={this.addMealHandler}
@@ -146,10 +174,10 @@ class MealPlannerBuilder extends Component {
           {mealToChoose}
           <ModalFoter>
             <ModalCloseBTN name="close" />
-            <PrimaryBTN
-              name="confirm plan"
-              whenClicked={this.confirmMealPlan}
-            />
+            {/* <PrimaryBTN
+          name="confirm plan"
+          whenClicked={this.confirmMealPlan}
+        /> */}
           </ModalFoter>
         </Modal>
         {meals}

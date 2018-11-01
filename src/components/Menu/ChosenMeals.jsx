@@ -1,11 +1,14 @@
 import React from 'react';
 import Meal from './Meal/Meal';
-const ChosenMeals = ({ meals }) => {
-  let transformedMeals = meals
-    .map(meal => {
-      console.log(meal);
+const ChosenMeals = ({ meals, deleteMeal }) => {
+  let transformedMeals = (meals || [])
+    .map((meal, index) => {
       return (
-        <li className="collection-item" key={meal.id}>
+        <li
+          className="collection-item"
+          key={index}
+          onClick={() => deleteMeal(meal.id)}
+        >
           {meal.name}
         </li>
       );

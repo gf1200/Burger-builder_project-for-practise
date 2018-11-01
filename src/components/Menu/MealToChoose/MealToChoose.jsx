@@ -1,8 +1,8 @@
 import React from 'react';
 
-const MealToChoose = ({ meals }) => {
+const MealToChoose = ({ meals, addMeal }) => {
   const mealToChooseList = meals.map(meal => (
-    <li key={meal.id} className="collection-item">
+    <li key={meal.id} onClick={() => addMeal(meal)} className="collection-item">
       {meal.name}
     </li>
   ));
