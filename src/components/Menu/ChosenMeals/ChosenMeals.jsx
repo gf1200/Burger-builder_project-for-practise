@@ -9,7 +9,7 @@ const ChosenMeals = ({ meals, deleteMeal }) => {
             <a
               href="#!"
               class="secondary-content"
-              onClick={() => deleteMeal(meal.id)}
+              onClick={() => deleteMeal(meal.chosenId)}
             >
               <i class="material-icons">delete</i>
             </a>

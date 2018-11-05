@@ -22,18 +22,21 @@ class MealPlannerBuilder extends Component {
 
   onAddMeal(meal) {
     this.setState(state => {
+      const numberGen = Math.floor(Math.random() * 1000 + 1);
       const addNewMeal = {
         ...meal,
-        id: meal.id + '_' + state.chosenMeals.length
+        chosenId: numberGen
       };
       const chosenMeals = [...state.chosenMeals, addNewMeal];
       return { chosenMeals };
     });
   }
 
-  onDeleteMeal(id) {
+  onDeleteMeal(chosenId) {
     this.setState(state => {
-      const chosenMeals = state.chosenMeals.filter(meal => meal.id !== id);
+      const chosenMeals = state.chosenMeals.filter(
+        meal => meal.chosenId !== chosenId
+      );
       return { chosenMeals };
     });
   }
@@ -121,19 +124,14 @@ class MealPlannerBuilder extends Component {
   };
 
   render() {
-    const disableInfo = {
-      ...this.state.meals
-    };
-    for (let key in disableInfo) {
-      disableInfo[key] = disableInfo[key] <= 0;
-    }
-
+    const mealsAlreadyChosen = [...this.state.chosenMeals].map(meal => meal.id);
     let mealToChoose = null;
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
     if (this.state.meals) {
       mealToChoose = (
         <MealToChoose
+          alredyChosen={mealsAlreadyChosen}
           meals={this.state.meals}
           addMeal={this.onAddMeal.bind(this)}
         />
