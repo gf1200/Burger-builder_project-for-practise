@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import Menu from '../../components/Menu/Menu';
-import BuildControls from '../../components/Menu/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import MealToChoose from './../../components/Menu/MealToChoose/MealToChoose';
 import axios from '../../axios-orders';
 import ModalCloseBTN from '../../components/UI/Modal/ModalCloseBTN';
 import ModalFoter from '../../components/UI/Modal/ModalFoter';
-import PrimaryBTN from '../../components/UI/PrimaryBTN';
 import Spiner from './../../components/UI/Spiner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import AddBTN from '../../components/UI/AddBTN/AddBTN';
-import ChosenMeals from '../../components/Menu/ChosenMeals';
+import ChosenMeals from '../../components/Menu/ChosenMeals/ChosenMeals';
 
 class MealPlannerBuilder extends Component {
   state = {

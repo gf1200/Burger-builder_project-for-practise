@@ -1,15 +1,19 @@
 import React from 'react';
-import Meal from './Meal/Meal';
 const ChosenMeals = ({ meals, deleteMeal }) => {
   let transformedMeals = (meals || [])
     .map((meal, index) => {
       return (
-        <li
-          className="collection-item"
-          key={index}
-          onClick={() => deleteMeal(meal.id)}
-        >
-          {meal.name}
+        <li className="collection-item" key={index}>
+          <div>
+            {meal.name}
+            <a
+              href="#!"
+              class="secondary-content"
+              onClick={() => deleteMeal(meal.id)}
+            >
+              <i class="material-icons">delete</i>
+            </a>
+          </div>
         </li>
       );
     })
@@ -27,6 +31,7 @@ const ChosenMeals = ({ meals, deleteMeal }) => {
       </li>
     );
   }
+
   return (
     <ul className="collection with-header">
       <li className="collection-header">
