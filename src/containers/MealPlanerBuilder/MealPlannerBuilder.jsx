@@ -43,6 +43,7 @@ class MealPlannerBuilder extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
+
     axios
       .get('meals-2.json')
       .then(res => {
@@ -56,27 +57,27 @@ class MealPlannerBuilder extends Component {
       .catch(error => this.setState({ error: true }));
   }
 
-  confirmMealPlan = () => {
-    this.setState({ loading: true });
-    const plan = {
-      meals: this.state.meals,
-      customer: {
-        name: 'John Don',
-        adress: {
-          street: 'Krakowska 1',
-          zipCode: '30-000',
-          cuntry: 'Polska'
-        },
-        email: 'john_d@gmail.com'
-      },
-      delivery: 'fastest'
-    };
+  // confirmMealPlan = () => {
+  //   this.setState({ loading: true });
+  //   const plan = {
+  //     meals: this.state.meals,
+  //     customer: {
+  //       name: 'John Don',
+  //       adress: {
+  //         street: 'Krakowska 1',
+  //         zipCode: '30-000',
+  //         cuntry: 'Polska'
+  //       },
+  //       email: 'john_d@gmail.com'
+  //     },
+  //     delivery: 'fastest'
+  //   };
 
-    axios
-      .post('orders.json', plan)
-      .then(response => this.setState({ loading: false }))
-      .catch(err => this.setState({ loading: false }));
-  };
+  //   axios
+  //     .post('orders.json', plan)
+  //     .then(response => this.setState({ loading: false }))
+  //     .catch(err => this.setState({ loading: false }));
+  // };
 
   summaryHandler = () => {
     this.setState({ summaryOpened: true });
@@ -84,43 +85,6 @@ class MealPlannerBuilder extends Component {
 
   summaryClose = () => {
     this.setState({ summaryOpened: false });
-  };
-  updateConfirmBtn = meals => {
-    const sum = Object.keys(meals)
-      .map(mealKey => {
-        return meals[mealKey];
-      })
-      .reduce((sum, next) => {
-        return sum + next;
-      }, 0);
-
-    this.setState({ confirmeDisabld: sum > 0 });
-  };
-
-  addMealHandler = type => {
-    const updateCount = this.state.meals[type] + 1;
-    const updateMeals = {
-      ...this.state.meals
-    };
-    updateMeals[type] = updateCount;
-    const amountAddition = this.state.totalMeals + 1;
-    this.setState({ totalMeals: amountAddition, meals: updateMeals });
-    this.updateConfirmBtn(updateMeals);
-  };
-
-  removeMealHandler = type => {
-    const oldCount = this.state.meals[type];
-    if (oldCount <= 0) {
-      return;
-    }
-    const updateCount = oldCount - 1;
-    const updateMeals = {
-      ...this.state.meals
-    };
-    updateMeals[type] = updateCount;
-    const amountDeduction = this.state.totalMeals - 1;
-    this.setState({ totalMeals: amountDeduction, meals: updateMeals });
-    this.updateConfirmBtn(updateMeals);
   };
 
   render() {
@@ -169,10 +133,6 @@ class MealPlannerBuilder extends Component {
           {mealToChoose}
           <ModalFoter>
             <ModalCloseBTN name="close" />
-            {/* <PrimaryBTN
-          name="confirm plan"
-          whenClicked={this.confirmMealPlan}
-        /> */}
           </ModalFoter>
         </Modal>
         {meals}

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import M from 'materialize-css/';
 
 class Modal extends Component {
+  elems = null;
+  modal = null;
+
   shouldComponentUpdate(nextProps, nextState) {
     if (
       nextProps.isShow !== this.props.isShow ||
@@ -12,23 +15,25 @@ class Modal extends Component {
     return false;
   }
 
-  render() {
-    const { whenClosed } = this.props;
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.modal');
-
-      M.Modal.init(elems, {
-        onCloseEnd() {
-          whenClosed();
-        }
-      });
+  componentDidMount() {
+    this.elems = document.querySelectorAll('.modal');
+    this.modal = M.Modal.init(this.elems, {
+      onCloseEnd: () => {
+        this.props.whenClosed();
+      }
     });
+  }
 
+  render() {
     return (
-      <div id={this.props.modalId} className={`modal ${this.props.modalType}`}>
-        <div className="modal-content">{this.props.children}</div>
-      </div>
+      <React.Fragment>
+        <div
+          id={this.props.modalId}
+          className={`modal ${this.props.modalType}`}
+        >
+          <div className="modal-content">{this.props.children}</div>
+        </div>
+      </React.Fragment>
     );
   }
 }
