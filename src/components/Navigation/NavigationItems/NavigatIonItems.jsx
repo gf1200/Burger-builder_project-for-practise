@@ -2,12 +2,8 @@ import React from 'react';
 import NavigationItem from './../NavigationItem/NavigationItem';
 const NavigatIonItems = props => (
   <React.Fragment>
-    <NavigationItem link="/" active={true}>
-      New plan
-    </NavigationItem>
-    <NavigationItem link="/" active={false}>
-      Current
-    </NavigationItem>
+    <NavigationItem link="/">New plan</NavigationItem>
+    <NavigationItem link="/current">Current</NavigationItem>
   </React.Fragment>
 );
 

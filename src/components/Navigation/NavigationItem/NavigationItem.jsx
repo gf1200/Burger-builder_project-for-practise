@@ -1,9 +1,14 @@
 import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
 
-const navigationItem = ({ link, active, children }) => (
-  <li className={active ? ['active'] : null}>
-    <a href={link}>{children}</a>
-  </li>
-);
+const navigationItem = ({ link, children, location }) => {
+  return (
+    <li className={location.pathname === link ? 'active' : ''}>
+      <NavLink exact to={link}>
+        {children}
+      </NavLink>
+    </li>
+  );
+};
 
-export default navigationItem;
+export default withRouter(navigationItem);
