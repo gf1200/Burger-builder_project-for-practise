@@ -1,5 +1,7 @@
 import React from 'react';
-const ChosenMeals = ({ meals, deleteMeal }) => {
+import { withRouter } from 'react-router-dom';
+import PrimaryBTN from './../../UI/PrimaryBTN';
+const ChosenMeals = ({ meals, deleteMeal, confirmClicked, confirmDisable }) => {
   let transformedMeals = (meals || [])
     .map((meal, index) => {
       return (
@@ -33,13 +35,20 @@ const ChosenMeals = ({ meals, deleteMeal }) => {
   }
 
   return (
-    <ul className="collection with-header">
-      <li className="collection-header">
-        <h4>Menu</h4>
-      </li>
-      {transformedMeals}
-    </ul>
+    <React.Fragment>
+      <ul className="collection with-header">
+        <li className="collection-header">
+          <h4>Menu</h4>
+        </li>
+        {transformedMeals}
+      </ul>
+      <PrimaryBTN
+        name="confirm plan"
+        whenClicked={confirmClicked}
+        disabled={confirmDisable}
+      />
+    </React.Fragment>
   );
 };
 
-export default ChosenMeals;
+export default withRouter(ChosenMeals);

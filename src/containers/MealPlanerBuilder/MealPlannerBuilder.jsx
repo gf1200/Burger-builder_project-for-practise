@@ -41,6 +41,10 @@ class MealPlannerBuilder extends Component {
     });
   }
 
+  onConfirmePlan() {
+    this.props.history.push('/current');
+  }
+
   componentDidMount() {
     this.setState({ loading: true });
 
@@ -105,6 +109,8 @@ class MealPlannerBuilder extends Component {
           <ChosenMeals
             meals={this.state.chosenMeals}
             deleteMeal={this.onDeleteMeal.bind(this)}
+            confirmClicked={this.onConfirmePlan.bind(this)}
+            confirmDisable={!this.state.chosenMeals.length ? true : false}
           />
           {/* <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} /> */}
           {/* <BuildControls
