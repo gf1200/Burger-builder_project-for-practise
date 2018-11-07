@@ -8,9 +8,11 @@ import Spiner from './../../components/UI/Spiner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import AddBTN from '../../components/UI/AddBTN/AddBTN';
 import ChosenMeals from '../../components/Menu/ChosenMeals/ChosenMeals';
+import TextInput from '../../components/UI/TextInput';
 
-class MealPlannerBuilder extends Component {
+class NewPlanBuilder extends Component {
   state = {
+    title: '',
     meals: null,
     chosenMeals: [],
     totalMeals: 0,
@@ -22,40 +24,43 @@ class MealPlannerBuilder extends Component {
 
   onAddMeal(meal) {
     this.setState(state => {
-      const numberGen = Math.floor(Math.random() * 1000 + 1);
+      const numberGen = Math.floor(Math.random() * 100);
       const addNewMeal = {
         ...meal,
-        chosenId: numberGen
+        id: meal.id + `__${numberGen}`
       };
       const chosenMeals = [...state.chosenMeals, addNewMeal];
       return { chosenMeals };
     });
   }
 
-  onDeleteMeal(chosenId) {
+  onDeleteMeal(id) {
     this.setState(state => {
-      const chosenMeals = state.chosenMeals.filter(
-        meal => meal.chosenId !== chosenId
-      );
+      const chosenMeals = state.chosenMeals.filter(meal => meal.id !== id);
       return { chosenMeals };
     });
   }
 
-  onConfirmePlan() {
+  onCreatePlan() {
     this.props.history.push('/current');
   }
 
+  handleChangeTitle(e) {
+    this.setState({ title: e.target.value });
+  }
   componentDidMount() {
     this.setState({ loading: true });
 
     axios
       .get('meals-2.json')
       .then(res => {
-        const meals = Object.keys(res.data).map(key => ({
-          id: key,
-          ...res.data[key]
-        }));
-
+        const meals = [];
+        for (let key in res.data) {
+          meals.push({
+            ...res.data[key],
+            id: key
+          });
+        }
         this.setState({ meals, loading: false });
       })
       .catch(error => this.setState({ error: true }));
@@ -92,7 +97,9 @@ class MealPlannerBuilder extends Component {
   };
 
   render() {
-    const mealsAlreadyChosen = [...this.state.chosenMeals].map(meal => meal.id);
+    const mealsAlreadyChosen = [...this.state.chosenMeals].map(meal =>
+      meal.id.split('__').slice(0, 1)
+    );
     let mealToChoose = null;
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
@@ -106,11 +113,16 @@ class MealPlannerBuilder extends Component {
       );
       meals = (
         <React.Fragment>
+          <br />
+          <TextInput
+            value={this.state.title}
+            onChange={this.handleChangeTitle.bind(this)}
+          />
           <ChosenMeals
             meals={this.state.chosenMeals}
             deleteMeal={this.onDeleteMeal.bind(this)}
-            confirmClicked={this.onConfirmePlan.bind(this)}
-            confirmDisable={!this.state.chosenMeals.length ? true : false}
+            createClicked={this.onCreatePlan.bind(this)}
+            createDisable={!this.state.chosenMeals.length ? true : false}
           />
           {/* <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} /> */}
           {/* <BuildControls
@@ -141,6 +153,7 @@ class MealPlannerBuilder extends Component {
             <ModalCloseBTN name="close" />
           </ModalFoter>
         </Modal>
+
         {meals}
         <AddBTN modalShow={this.summaryHandler} target="modal1" />
       </React.Fragment>
@@ -148,4 +161,4 @@ class MealPlannerBuilder extends Component {
   }
 }
 
-export default withErrorHandler(MealPlannerBuilder, axios);
+export default withErrorHandler(NewPlanBuilder, axios);

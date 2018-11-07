@@ -2,10 +2,14 @@ import React from 'react';
 
 const MealToChoose = ({ meals, addMeal, alredyChosen }) => {
   const mealToChooseList = meals.map(meal => {
-    let numberOfChosen = alredyChosen.filter(id => id === meal.id).length;
+    let numberOfChosen = alredyChosen.filter(id => String(id) === meal.id)
+      .length;
 
     const badge = numberOfChosen ? (
-      <span className="new badge white black-text" data-badge-caption="added">
+      <span
+        className="new badge teal lighten-5 black-text"
+        data-badge-caption=""
+      >
         {numberOfChosen}
       </span>
     ) : null;

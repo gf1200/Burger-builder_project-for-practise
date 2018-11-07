@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PrimaryBTN from './../../UI/PrimaryBTN';
-const ChosenMeals = ({ meals, deleteMeal, confirmClicked, confirmDisable }) => {
+const ChosenMeals = ({ meals, deleteMeal, createClicked, createDisable }) => {
   let transformedMeals = (meals || [])
     .map((meal, index) => {
       return (
@@ -11,7 +11,7 @@ const ChosenMeals = ({ meals, deleteMeal, confirmClicked, confirmDisable }) => {
             <a
               href="#!"
               className="secondary-content"
-              onClick={() => deleteMeal(meal.chosenId)}
+              onClick={() => deleteMeal(meal.id)}
             >
               <i className="material-icons">delete</i>
             </a>
@@ -28,7 +28,7 @@ const ChosenMeals = ({ meals, deleteMeal, confirmClicked, confirmDisable }) => {
       <li>
         <div className=" collapsible-header">
           <i className="material-icons ">info_outline</i>
-          Please add some meals to menu
+          Please add plan title and some meals
         </div>
       </li>
     );
@@ -36,16 +36,11 @@ const ChosenMeals = ({ meals, deleteMeal, confirmClicked, confirmDisable }) => {
 
   return (
     <React.Fragment>
-      <ul className="collection with-header">
-        <li className="collection-header">
-          <h4>Menu</h4>
-        </li>
-        {transformedMeals}
-      </ul>
+      <ul className="collection">{transformedMeals}</ul>
       <PrimaryBTN
-        name="confirm plan"
-        whenClicked={confirmClicked}
-        disabled={confirmDisable}
+        name="create"
+        whenClicked={createClicked}
+        disabled={createDisable}
       />
     </React.Fragment>
   );
