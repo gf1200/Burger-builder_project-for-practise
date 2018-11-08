@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 import MealToChoose from './../../components/Menu/MealToChoose/MealToChoose';
-import axios from '../../axios-orders';
+import axios from '../../axios-meals';
 import ModalCloseBTN from '../../components/UI/Modal/ModalCloseBTN';
 import ModalFoter from '../../components/UI/Modal/ModalFoter';
 import Spiner from './../../components/UI/Spiner';
