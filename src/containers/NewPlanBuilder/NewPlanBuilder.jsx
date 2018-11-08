@@ -19,6 +19,7 @@ class NewPlanBuilder extends Component {
     summaryDisabld: false,
     summaryOpened: false,
     loading: false,
+    create: false,
     error: false
   };
 
@@ -42,7 +43,23 @@ class NewPlanBuilder extends Component {
   }
 
   onCreatePlan() {
-    this.props.history.push('/current');
+    this.setState({ loading: true });
+    const newPlan = {
+      title: this.state.title,
+      meals: this.state.chosenMeals
+    };
+
+    axios
+      .post('plans.json', newPlan)
+      .then(response => {
+        this.setState({ loading: false, create: true });
+        if (this.state.create) {
+          setTimeout(() => {
+            this.props.history.push('/current');
+          }, 1000);
+        }
+      })
+      .catch(err => this.setState({ loading: false }));
   }
 
   handleChangeTitle(e) {
@@ -66,28 +83,6 @@ class NewPlanBuilder extends Component {
       .catch(error => this.setState({ error: true }));
   }
 
-  // confirmMealPlan = () => {
-  //   this.setState({ loading: true });
-  //   const plan = {
-  //     meals: this.state.meals,
-  //     customer: {
-  //       name: 'John Don',
-  //       adress: {
-  //         street: 'Krakowska 1',
-  //         zipCode: '30-000',
-  //         cuntry: 'Polska'
-  //       },
-  //       email: 'john_d@gmail.com'
-  //     },
-  //     delivery: 'fastest'
-  //   };
-
-  //   axios
-  //     .post('orders.json', plan)
-  //     .then(response => this.setState({ loading: false }))
-  //     .catch(err => this.setState({ loading: false }));
-  // };
-
   summaryHandler = () => {
     this.setState({ summaryOpened: true });
   };
@@ -102,6 +97,8 @@ class NewPlanBuilder extends Component {
     );
     let mealToChoose = null;
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
+
+    const Saved = <p>dfdf</p>;
 
     if (this.state.meals) {
       mealToChoose = (
@@ -128,24 +125,23 @@ class NewPlanBuilder extends Component {
                 : false
             }
           />
-          {/* <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} /> */}
-          {/* <BuildControls
-            mealeAdded={this.addMealHandler}
-            mealRemoved={this.removeMealHandler}
-            disabld={disableInfo}
-            confirmDisabld={this.state.confirmeDisabld}
-            target="modal2"
-          /> */}
         </React.Fragment>
       );
     }
 
-    if (this.state.loading) {
-      mealToChoose = <Spiner />;
+    if (this.state.loading || this.state.create) {
+      meals = this.state.create ? (
+        <div class="card-panel teal lighten-5 teal-text center-align">
+          This is a card panel with a teal lighten-2 class
+        </div>
+      ) : (
+        <Spiner />
+      );
     }
 
     return (
       <React.Fragment>
+        {meals}
         <Modal
           modalType="bottom-sheet"
           modalId="modal1"
@@ -157,8 +153,6 @@ class NewPlanBuilder extends Component {
             <ModalCloseBTN name="close" />
           </ModalFoter>
         </Modal>
-
-        {meals}
         <AddBTN modalShow={this.summaryHandler} target="modal1" />
       </React.Fragment>
     );

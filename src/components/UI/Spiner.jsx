@@ -2,19 +2,9 @@ import React from 'react';
 
 const Spiner = () => {
   return (
-    <div className="center-align">
-      <div className="preloader-wrapper big active">
-        <div className="spinner-layer spinner-blue-only">
-          <div className="circle-clipper left">
-            <div className="circle" />
-          </div>
-          <div className="gap-patch">
-            <div className="circle" />
-          </div>
-          <div className="circle-clipper right">
-            <div className="circle" />
-          </div>
-        </div>
+    <div className="center-align" style={{ margin: '4em 0' }}>
+      <div class="progress">
+        <div class="indeterminate" />
       </div>
     </div>
   );
