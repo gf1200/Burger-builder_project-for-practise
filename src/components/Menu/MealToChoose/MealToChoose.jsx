@@ -17,15 +17,14 @@ const MealToChoose = ({ meals, addMeal, alredyChosen }) => {
     const active = numberOfChosen ? 'active' : '';
 
     return (
-      <a
-        href="#!"
+      <li
         key={meal.id}
         onClick={() => addMeal(meal)}
         className={`collection-item ${active}`}
       >
         {meal.name}
         {badge}
-      </a>
+      </li>
     );
   });
 

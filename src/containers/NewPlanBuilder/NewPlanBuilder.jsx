@@ -13,8 +13,8 @@ import TextInput from '../../components/UI/TextInput';
 class NewPlanBuilder extends Component {
   state = {
     title: '',
-    meals: null,
     chosenMeals: [],
+    meals: null,
     totalMeals: 0,
     summaryDisabld: false,
     summaryOpened: false,
@@ -122,7 +122,11 @@ class NewPlanBuilder extends Component {
             meals={this.state.chosenMeals}
             deleteMeal={this.onDeleteMeal.bind(this)}
             createClicked={this.onCreatePlan.bind(this)}
-            createDisable={!this.state.chosenMeals.length ? true : false}
+            createDisable={
+              !this.state.chosenMeals.length || !this.state.title.length
+                ? true
+                : false
+            }
           />
           {/* <Menu meals={this.state.meals} totalMeals={this.state.totalMeals} /> */}
           {/* <BuildControls
