@@ -3,8 +3,8 @@ import React from 'react';
 const Spiner = () => {
   return (
     <div className="center-align" style={{ margin: '4em 0' }}>
-      <div class="progress">
-        <div class="indeterminate" />
+      <div className="progress">
+        <div className="indeterminate" />
       </div>
     </div>
   );

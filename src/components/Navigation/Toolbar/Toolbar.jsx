@@ -3,19 +3,26 @@ import React from 'react';
 import Logo from '../../Logo/Logo';
 import SideNave from '../SIdeNave/SideNave';
 import ToolbarNav from '../ToolbarNav/ToolbarNav';
+import { Link } from 'react-router-dom';
 
 const toolbar = props => (
   <nav className="z-depth-1">
     <div className="nav-wrapper teal ">
-      <a href="index.html" className="brand-logo center">
-        <Logo size="5rem" />
-        Meal planner
-      </a>
-      <a href="!#" data-target="mobile-demo" className="sidenav-trigger">
-        <i className="material-icons">menu</i>
-      </a>
-      <ToolbarNav />
-      <SideNave />
+      <div className="container">
+        <Link to="/" className="brand-logo left teal-text text-lighten-5">
+          <Logo size="4rem" />
+          Meal planner
+        </Link>
+        <a
+          href="!#"
+          data-target="mobile-demo"
+          className="sidenav-trigger right"
+        >
+          <i className="material-icons">menu</i>
+        </a>
+        <ToolbarNav />
+        <SideNave />
+      </div>
     </div>
   </nav>
 );

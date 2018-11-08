@@ -55,8 +55,8 @@ class NewPlanBuilder extends Component {
         this.setState({ loading: false, create: true });
         if (this.state.create) {
           setTimeout(() => {
-            this.props.history.push('/current');
-          }, 1000);
+            this.props.history.push('/plans');
+          }, 2000);
         }
       })
       .catch(err => this.setState({ loading: false }));
@@ -98,8 +98,6 @@ class NewPlanBuilder extends Component {
     let mealToChoose = null;
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
-    const Saved = <p>dfdf</p>;
-
     if (this.state.meals) {
       mealToChoose = (
         <MealToChoose
@@ -131,8 +129,8 @@ class NewPlanBuilder extends Component {
 
     if (this.state.loading || this.state.create) {
       meals = this.state.create ? (
-        <div class="card-panel teal lighten-5 teal-text center-align">
-          This is a card panel with a teal lighten-2 class
+        <div className="card-panel teal lighten-5 teal-text center-align">
+          <p>The plan has been saved</p>
         </div>
       ) : (
         <Spiner />
