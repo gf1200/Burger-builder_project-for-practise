@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import axios from './../../axios-meals';
 import Spiner from './../../components/UI/Spiner';
 import withErrorHandler from './../../hoc/withErrorHandler/withErrorHandler';
+import M from 'materialize-css';
 
 export class Plans extends Component {
+  elemsColap = null;
+  instancesColap = null;
   state = {
     landing: false,
     error: false,
@@ -25,16 +28,30 @@ export class Plans extends Component {
         this.setState({ plans, landing: false });
       })
       .catch(error => this.setState({ error: true }));
-
-    this.setState({ landing: false });
+    this.elemsColap = document.querySelectorAll('.collapsible');
+    this.instancesColap = M.Collapsible.init(this.elemsColap);
   }
   render() {
     let plans = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
     if (this.state.plans) {
-      plans = this.state.plans.map(plan => <p>{plan.title}</p>);
+      plans = this.state.plans.map(plan => (
+        <li>
+          <div className="collapsible-header">
+            <i className="material-icons">more_vert</i>
+            {plan.title}
+          </div>
+          <div className="collapsible-body">
+            <span>
+              {plan.meals.map(x => (
+                <p>{x.name}</p>
+              ))}
+            </span>
+          </div>
+        </li>
+      ));
     }
-    return <div>{plans}</div>;
+    return <ul className="collapsible">{plans}</ul>;
   }
 }
 
