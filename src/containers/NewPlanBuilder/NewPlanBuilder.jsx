@@ -25,7 +25,7 @@ class NewPlanBuilder extends Component {
 
   onAddMeal(meal) {
     this.setState(state => {
-      const numberGen = Math.floor(Math.random() * 100);
+      const numberGen = Math.floor(Math.random() * 1000);
       const addNewMeal = {
         ...meal,
         id: meal.id + `__${numberGen}`
