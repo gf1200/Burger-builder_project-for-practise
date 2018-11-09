@@ -1,4 +1,5 @@
 import React from 'react';
+import PrimaryBTN from '../../PrimaryBTN';
 
 const CollapsibleItem = ({ item }) => {
   return (
@@ -14,6 +15,10 @@ const CollapsibleItem = ({ item }) => {
               {plan.name}
             </li>
           ))}
+          <li className="collection-item">
+            <br />
+            <PrimaryBTN name="set curent" />
+          </li>
         </ul>
       </div>
     </li>
