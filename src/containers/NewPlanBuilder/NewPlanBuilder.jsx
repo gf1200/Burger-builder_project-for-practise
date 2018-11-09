@@ -28,7 +28,7 @@ class NewPlanBuilder extends Component {
       const numberGen = Math.floor(Math.random() * 1000);
       const addNewMeal = {
         ...meal,
-        id: meal.id + `__${numberGen}`
+        id: meal.id + `##${numberGen}`
       };
       const chosenMeals = [...state.chosenMeals, addNewMeal];
       return { chosenMeals };
@@ -93,7 +93,7 @@ class NewPlanBuilder extends Component {
 
   render() {
     const mealsAlreadyChosen = [...this.state.chosenMeals].map(meal =>
-      meal.id.split('__').slice(0, 1)
+      meal.id.split('##').slice(0, 1)
     );
     let mealToChoose = null;
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;

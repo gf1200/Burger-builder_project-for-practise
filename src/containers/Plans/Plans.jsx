@@ -10,6 +10,21 @@ export class Plans extends Component {
     error: false,
     plans: null
   };
+
+  onCurrentSet(id) {
+    this.setState({ loading: true });
+    const current = {
+      current: id
+    };
+
+    axios
+      .put('state.json', current)
+      .then(response => {
+        this.setState({ loading: false });
+      })
+      .catch(err => this.setState({ loading: false }));
+  }
+
   componentDidMount() {
     this.setState({ landing: true });
     axios
@@ -30,7 +45,12 @@ export class Plans extends Component {
     let plans = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
     if (this.state.plans) {
-      plans = <Collapsible list={this.state.plans} />;
+      plans = (
+        <Collapsible
+          onCurrentSet={this.onCurrentSet.bind(this)}
+          list={this.state.plans}
+        />
+      );
     }
     return <React.Fragment>{plans}</React.Fragment>;
   }

@@ -12,7 +12,11 @@ export class Collapsible extends Component {
 
   render() {
     const plansList = this.props.list.map(item => (
-      <CollapsibleItem key={item.id} item={item} />
+      <CollapsibleItem
+        key={item.id}
+        item={item}
+        onCurrentSet={() => this.props.onCurrentSet(item.id)}
+      />
     ));
 
     return <ul className="collapsible">{plansList}</ul>;

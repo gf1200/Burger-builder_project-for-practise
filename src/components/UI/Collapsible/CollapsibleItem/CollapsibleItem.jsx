@@ -1,7 +1,7 @@
 import React from 'react';
 import PrimaryBTN from '../../PrimaryBTN';
 
-const CollapsibleItem = ({ item }) => {
+const CollapsibleItem = ({ item, onCurrentSet }) => {
   return (
     <li>
       <div className="collapsible-header">
@@ -17,7 +17,7 @@ const CollapsibleItem = ({ item }) => {
           ))}
           <li className="collection-item">
             <br />
-            <PrimaryBTN name="set curent" />
+            <PrimaryBTN name="set curent" whenClicked={onCurrentSet} />
           </li>
         </ul>
       </div>
