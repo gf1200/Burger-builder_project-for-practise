@@ -9,11 +9,12 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import AddBTN from '../../components/UI/AddBTN/AddBTN';
 import ChosenMeals from '../../components/Menu/ChosenMeals/ChosenMeals';
 import TextInput from '../../components/UI/TextInput';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions';
 
 class NewPlanBuilder extends Component {
   state = {
     title: '',
-    chosenMeals: [],
     meals: null,
     totalMeals: 0,
     summaryDisabld: false,
@@ -23,30 +24,30 @@ class NewPlanBuilder extends Component {
     error: false
   };
 
-  onAddMeal(meal) {
-    this.setState(state => {
-      const numberGen = Math.floor(Math.random() * 1000);
-      const addNewMeal = {
-        ...meal,
-        id: meal.id + `##${numberGen}`
-      };
-      const chosenMeals = [...state.chosenMeals, addNewMeal];
-      return { chosenMeals };
-    });
-  }
+  // onAddMeal(meal) {
+  //   this.setState(state => {
+  //     const numberGen = Math.floor(Math.random() * 1000);
+  //     const addNewMeal = {
+  //       ...meal,
+  //       id: meal.id + `##${numberGen}`
+  //     };
+  //     const chosenMeals = [...state.chosenMeals, addNewMeal];
+  //     return { chosenMeals };
+  //   });
+  // }
 
-  onDeleteMeal(id) {
-    this.setState(state => {
-      const chosenMeals = state.chosenMeals.filter(meal => meal.id !== id);
-      return { chosenMeals };
-    });
-  }
+  // onDeleteMeal(id) {
+  //   this.setState(state => {
+  //     const chosenMeals = state.chosenMeals.filter(meal => meal.id !== id);
+  //     return { chosenMeals };
+  //   });
+  // }
 
   onCreatePlan() {
     this.setState({ loading: true });
     const newPlan = {
       title: this.state.title,
-      meals: this.state.chosenMeals
+      meals: this.props.chosenMeals
     };
 
     axios
@@ -92,9 +93,10 @@ class NewPlanBuilder extends Component {
   };
 
   render() {
-    const mealsAlreadyChosen = [...this.state.chosenMeals].map(meal =>
+    const mealsAlreadyChosen = [...this.props.chosenMeals].map(meal =>
       meal.id.split('##').slice(0, 1)
     );
+
     let mealToChoose = null;
     let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
 
@@ -103,7 +105,7 @@ class NewPlanBuilder extends Component {
         <MealToChoose
           alredyChosen={mealsAlreadyChosen}
           meals={this.state.meals}
-          addMeal={this.onAddMeal.bind(this)}
+          addMeal={this.props.onAddMeal}
         />
       );
       meals = (
@@ -114,11 +116,11 @@ class NewPlanBuilder extends Component {
             onChange={this.handleChangeTitle.bind(this)}
           />
           <ChosenMeals
-            meals={this.state.chosenMeals}
-            deleteMeal={this.onDeleteMeal.bind(this)}
+            meals={this.props.chosenMeals}
+            deleteMeal={this.props.onDeleteMeal}
             createClicked={this.onCreatePlan.bind(this)}
             createDisable={
-              !this.state.chosenMeals.length || !this.state.title.length
+              !this.props.chosenMeals.length || !this.state.title.length
                 ? true
                 : false
             }
@@ -136,6 +138,7 @@ class NewPlanBuilder extends Component {
         <Spiner />
       );
     }
+    console.log(this.props.chosenMeals);
 
     return (
       <React.Fragment>
@@ -157,4 +160,18 @@ class NewPlanBuilder extends Component {
   }
 }
 
-export default withErrorHandler(NewPlanBuilder, axios);
+const mapStateToProps = state => {
+  return {
+    chosenMeals: state.chosenMeals
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddMeal: meal => dispatch({ type: actionTypes.ADD_MEAL, meal }),
+    onDeleteMeal: id => dispatch({ type: actionTypes.REMOVE_MEAL, id })
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(NewPlanBuilder, axios));
