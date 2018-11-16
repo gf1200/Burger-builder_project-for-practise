@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Layout from './hoc/Layot/Layout';
 import { Route, Switch } from 'react-router-dom';
 import NewPlanBuilder from './containers/NewPlanBuilder/NewPlanBuilder';
-import { CurrentPlan } from './containers/CurrentPlan/CurrentPlan';
-import { Plans } from './containers/Plans/Plans';
+import CurrentPlan from './containers/CurrentPlan/CurrentPlan';
+import Plans from './containers/Plans/Plans';
 
 class App extends Component {
   render() {

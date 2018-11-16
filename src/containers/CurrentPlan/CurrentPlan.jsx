@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export class CurrentPlan extends Component {
+class CurrentPlan extends Component {
   render() {
-    return <div>Current Plan ...</div>;
+    console.log(this.props.plans);
+    return <div>Current Plan ...{this.props.plans}</div>;
   }
 }
 
-export default CurrentPlan;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    plans: state.plans.list
+  };
+};
+
+export default connect(mapStateToProps)(CurrentPlan);

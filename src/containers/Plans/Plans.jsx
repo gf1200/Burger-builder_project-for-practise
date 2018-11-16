@@ -3,52 +3,46 @@ import axios from './../../axios-meals';
 import Spiner from './../../components/UI/Spiner';
 import withErrorHandler from './../../hoc/withErrorHandler/withErrorHandler';
 import Collapsible from '../../components/UI/Collapsible/Collapsible';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
+import InfoBox from '../../components/UI/InfoBox';
 
 export class Plans extends Component {
   state = {
-    landing: false,
-    error: false,
-    plans: null
+    landing: false
   };
 
-  onCurrentSet(id) {
-    this.setState({ loading: true });
-    const current = {
-      current: id
-    };
+  onCurrentSet(itom) {
+    console.log(itom);
 
-    axios
-      .put('state.json', current)
-      .then(response => {
-        this.setState({ loading: false });
-      })
-      .catch(err => this.setState({ loading: false }));
+    // const current = {
+    //   currentPlan: id
+    // };
+
+    // axios
+    //   .put('user.json', current)
+    //   .then(response => {
+    //     this.setState({ loading: false });
+    //   })
+    //   .catch(err => this.setState({ loading: false }));
   }
 
   componentDidMount() {
-    this.setState({ landing: true });
-    axios
-      .get('plans.json')
-      .then(res => {
-        const plans = [];
-        for (let key in res.data) {
-          plans.push({
-            ...res.data[key],
-            id: key
-          });
-        }
-        this.setState({ plans, landing: false });
-      })
-      .catch(error => this.setState({ error: true }));
+    this.props.loadPlans();
   }
   render() {
-    let plans = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
-
-    if (this.state.plans) {
+    let plans = this.props.plansError ? (
+      <InfoBox color="red">
+        <p>Plans can't be loaded!</p>
+      </InfoBox>
+    ) : (
+      <Spiner />
+    );
+    if (this.props.plans) {
       plans = (
         <Collapsible
-          onCurrentSet={this.onCurrentSet.bind(this)}
-          list={this.state.plans}
+          onCurrentSet={this.props.setCurrentPlan}
+          list={this.props.plans}
         />
       );
     }
@@ -56,4 +50,22 @@ export class Plans extends Component {
   }
 }
 
-export default withErrorHandler(Plans, axios);
+const mapStateToProps = state => {
+  return {
+    plans: state.plans.listOfPlans,
+    plansError: state.plans.error
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    loadPlans: () => dispatch(actions.initPlans()),
+    setCurrentPlan: (currentPlan, plans) =>
+      dispatch(actions.putCurrentPlan(currentPlan, plans))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(Plans, axios));

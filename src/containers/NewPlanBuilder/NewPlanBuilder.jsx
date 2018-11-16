@@ -10,78 +10,16 @@ import AddBTN from '../../components/UI/AddBTN/AddBTN';
 import ChosenMeals from '../../components/Menu/ChosenMeals/ChosenMeals';
 import TextInput from '../../components/UI/TextInput';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actions from '../../store/actions/index';
+import InfoBox from '../../components/UI/InfoBox';
 
 class NewPlanBuilder extends Component {
   state = {
-    title: '',
-    meals: null,
-    totalMeals: 0,
-    summaryDisabld: false,
-    summaryOpened: false,
-    loading: false,
-    create: false,
-    error: false
+    title: ''
   };
-
-  // onAddMeal(meal) {
-  //   this.setState(state => {
-  //     const numberGen = Math.floor(Math.random() * 1000);
-  //     const addNewMeal = {
-  //       ...meal,
-  //       id: meal.id + `##${numberGen}`
-  //     };
-  //     const chosenMeals = [...state.chosenMeals, addNewMeal];
-  //     return { chosenMeals };
-  //   });
-  // }
-
-  // onDeleteMeal(id) {
-  //   this.setState(state => {
-  //     const chosenMeals = state.chosenMeals.filter(meal => meal.id !== id);
-  //     return { chosenMeals };
-  //   });
-  // }
-
-  onCreatePlan() {
-    this.setState({ loading: true });
-    const newPlan = {
-      title: this.state.title,
-      meals: this.props.chosenMeals
-    };
-
-    axios
-      .post('plans.json', newPlan)
-      .then(response => {
-        this.setState({ loading: false, create: true });
-        if (this.state.create) {
-          setTimeout(() => {
-            this.props.history.push('/plans');
-          }, 2000);
-        }
-      })
-      .catch(err => this.setState({ loading: false }));
-  }
 
   handleChangeTitle(e) {
     this.setState({ title: e.target.value });
-  }
-  componentDidMount() {
-    this.setState({ loading: true });
-
-    axios
-      .get('meals-2.json')
-      .then(res => {
-        const meals = [];
-        for (let key in res.data) {
-          meals.push({
-            ...res.data[key],
-            id: key
-          });
-        }
-        this.setState({ meals, loading: false });
-      })
-      .catch(error => this.setState({ error: true }));
   }
 
   summaryHandler = () => {
@@ -92,19 +30,36 @@ class NewPlanBuilder extends Component {
     this.setState({ summaryOpened: false });
   };
 
+  componentDidMount() {
+    this.props.loadMeals();
+  }
+
   render() {
     const mealsAlreadyChosen = [...this.props.chosenMeals].map(meal =>
       meal.id.split('##').slice(0, 1)
     );
 
-    let mealToChoose = null;
-    let meals = this.state.error ? <p>Meals can't be loaded!</p> : <Spiner />;
+    if (this.props.create || this.props.createError) {
+      setTimeout(() => {
+        this.props.initPlan();
+        return this.props.history.push('/plans');
+      }, 1600);
+    }
 
-    if (this.state.meals) {
+    let mealToChoose = null;
+    let meals = this.props.mealsError ? (
+      <InfoBox color="red">
+        <p>Meals can't be loaded!</p>
+      </InfoBox>
+    ) : (
+      <Spiner />
+    );
+
+    if (this.props.meals) {
       mealToChoose = (
         <MealToChoose
           alredyChosen={mealsAlreadyChosen}
-          meals={this.state.meals}
+          meals={this.props.meals}
           addMeal={this.props.onAddMeal}
         />
       );
@@ -118,7 +73,9 @@ class NewPlanBuilder extends Component {
           <ChosenMeals
             meals={this.props.chosenMeals}
             deleteMeal={this.props.onDeleteMeal}
-            createClicked={this.onCreatePlan.bind(this)}
+            createClicked={() =>
+              this.props.createNewPlan(this.props.chosenMeals, this.state.title)
+            }
             createDisable={
               !this.props.chosenMeals.length || !this.state.title.length
                 ? true
@@ -129,16 +86,23 @@ class NewPlanBuilder extends Component {
       );
     }
 
-    if (this.state.loading || this.state.create) {
-      meals = this.state.create ? (
-        <div className="card-panel teal lighten-5 teal-text center-align">
-          <p>The plan has been saved</p>
-        </div>
+    if (this.props.loading || this.props.create) {
+      meals = this.props.create ? (
+        <InfoBox color="teal">
+          <p>The plan has been saved in plans ...</p>
+        </InfoBox>
       ) : (
         <Spiner />
       );
     }
-    console.log(this.props.chosenMeals);
+
+    if (this.props.createError) {
+      meals = (
+        <InfoBox color="red">
+          <p>The plan has't been saved ...</p>
+        </InfoBox>
+      );
+    }
 
     return (
       <React.Fragment>
@@ -162,13 +126,23 @@ class NewPlanBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    chosenMeals: state.chosenMeals
+    chosenMeals: state.newPlan.chosenMeals,
+    create: state.newPlan.planCreated,
+    loading: state.newPlan.loading,
+    createError: state.newPlan.error,
+    fetchError: state.meals.error,
+    meals: state.meals.mealsList,
+    mealsError: state.meals.error
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onAddMeal: meal => dispatch({ type: actionTypes.ADD_MEAL, meal }),
-    onDeleteMeal: id => dispatch({ type: actionTypes.REMOVE_MEAL, id })
+    initPlan: () => dispatch(actions.initPlan()),
+    createNewPlan: (meals, title) =>
+      dispatch(actions.createNewPlanInit(meals, title)),
+    loadMeals: () => dispatch(actions.initMeals()),
+    onAddMeal: meal => dispatch(actions.addMeal(meal)),
+    onDeleteMeal: id => dispatch(actions.removeMeal(id))
   };
 };
 export default connect(
