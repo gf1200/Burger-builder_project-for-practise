@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../utility';
+import { updateObject, addItem, removeItem } from '../utility';
 
 const initialState = {
   chosenMeals: [],
@@ -18,22 +18,21 @@ const reducer = (state = initialState, action) => {
         error: false
       });
 
+    case actionTypes.ADD_MEAL:
+      return updateObject(state, {
+        chosenMeals: addItem(state.chosenMeals, action.meal)
+      });
+
+    case actionTypes.REMOVE_MEAL:
+      return updateObject(state, {
+        chosenMeals: removeItem(state.chosenMeals, action)
+      });
+
     case actionTypes.CREATE_NEW_PLAN_SUCCESS:
       return updateObject(state, { planCreated: true, loading: false });
 
     case actionTypes.CREATE_NEW_PLAN_FAILD:
       return updateObject(state, { error: true, loading: false });
-
-    case actionTypes.ADD_MEAL:
-      return updateObject(state, {
-        chosenMeals: [...state.chosenMeals, action.newMeal]
-      });
-
-    case actionTypes.REMOVE_MEAL:
-      const chosenMeals = state.chosenMeals.filter(
-        meal => meal.id !== action.id
-      );
-      return updateObject(state, { chosenMeals });
 
     case actionTypes.CREATE_NEW_PLAN_LOAD:
       return updateObject(state, { loading: action.load });

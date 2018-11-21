@@ -11,7 +11,7 @@ const ChosenMeals = ({ meals, deleteMeal, createClicked, createDisable }) => {
             <a
               href="#!"
               className="secondary-content"
-              onClick={() => deleteMeal(meal.id)}
+              onClick={() => deleteMeal(index)}
             >
               <i className="material-icons">delete</i>
             </a>

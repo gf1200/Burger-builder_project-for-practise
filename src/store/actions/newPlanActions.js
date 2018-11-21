@@ -1,19 +1,14 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-meals';
+import { userKey } from '../../auth';
 
 export const initPlan = () => ({ type: actionTypes.INIT_PLAN });
 
 export const addMeal = meal => {
-  const numberGen = Math.floor(Math.random() * 1000);
-  const newMeal = {
-    ...meal,
-    id: meal.id + `##${numberGen}`
-  };
-
-  return { type: actionTypes.ADD_MEAL, newMeal };
+  return { type: actionTypes.ADD_MEAL, meal };
 };
 
-export const removeMeal = id => ({ type: actionTypes.REMOVE_MEAL, id });
+export const removeMeal = index => ({ type: actionTypes.REMOVE_MEAL, index });
 
 export const createNewPlanLoad = load => ({
   type: actionTypes.CREATE_NEW_PLAN_LOAD,
@@ -29,11 +24,13 @@ export const createNewPlanInit = (meals, title) => {
     dispatch(createNewPlanLoad(true));
     const newPlan = {
       title,
-      current: false,
       meals
     };
     axios
-      .post('plans.json', newPlan)
+      .post(
+        `https://meal-planer.firebaseio.com/userObjects/plans/${userKey}.json`,
+        newPlan
+      )
       .then(response => {
         if (response === undefined) {
           return dispatch(createNewPlanFaild());

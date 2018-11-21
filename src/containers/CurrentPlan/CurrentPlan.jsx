@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 class CurrentPlan extends Component {
   render() {
     console.log(this.props.plans);
-    return <div>Current Plan ...{this.props.plans}</div>;
+    return <div>Current Plan ...</div>;
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
-    plans: state.plans.list
+    plans: state.plans.listOfPlans
   };
 };
 

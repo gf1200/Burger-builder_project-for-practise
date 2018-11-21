@@ -38,11 +38,11 @@ export class Plans extends Component {
     ) : (
       <Spiner />
     );
-    if (this.props.plans) {
+    if (this.props.listOfPlans) {
       plans = (
         <Collapsible
           onCurrentSet={this.props.setCurrentPlan}
-          list={this.props.plans}
+          listOfPlans={this.props.listOfPlans}
         />
       );
     }
@@ -52,7 +52,7 @@ export class Plans extends Component {
 
 const mapStateToProps = state => {
   return {
-    plans: state.plans.listOfPlans,
+    listOfPlans: state.plans.listOfPlans,
     plansError: state.plans.error
   };
 };

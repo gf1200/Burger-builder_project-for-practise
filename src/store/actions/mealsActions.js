@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-meals';
-import { fireBaseTransformId } from './utility';
+import { userKey } from '../../auth';
+import { flattenFireBaseObject } from './utility';
 
 export const setMeals = meals => {
   return { type: actionTypes.SET_MEALS, meals };
@@ -12,9 +13,9 @@ export const fetchMealsFaild = () => {
 export const initMeals = () => {
   return dispatch => {
     axios
-      .get('meals-2.json')
+      .get(`userObjects/meals/${userKey}.json`)
       .then(res => {
-        const meals = fireBaseTransformId(res);
+        const meals = flattenFireBaseObject(res.data);
         dispatch(setMeals(meals));
       })
       .catch(error => dispatch(fetchMealsFaild()));

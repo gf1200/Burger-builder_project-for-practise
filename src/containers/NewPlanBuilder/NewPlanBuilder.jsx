@@ -35,10 +35,6 @@ class NewPlanBuilder extends Component {
   }
 
   render() {
-    const mealsAlreadyChosen = [...this.props.chosenMeals].map(meal =>
-      meal.id.split('##').slice(0, 1)
-    );
-
     if (this.props.create || this.props.createError) {
       setTimeout(() => {
         this.props.initPlan();
@@ -58,7 +54,7 @@ class NewPlanBuilder extends Component {
     if (this.props.meals) {
       mealToChoose = (
         <MealToChoose
-          alredyChosen={mealsAlreadyChosen}
+          chosen={this.props.chosenMeals}
           meals={this.props.meals}
           addMeal={this.props.onAddMeal}
         />
@@ -142,7 +138,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.createNewPlanInit(meals, title)),
     loadMeals: () => dispatch(actions.initMeals()),
     onAddMeal: meal => dispatch(actions.addMeal(meal)),
-    onDeleteMeal: id => dispatch(actions.removeMeal(id))
+    onDeleteMeal: index => dispatch(actions.removeMeal(index))
   };
 };
 export default connect(

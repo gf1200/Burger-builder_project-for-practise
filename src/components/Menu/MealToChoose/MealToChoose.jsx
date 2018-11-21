@@ -1,24 +1,25 @@
 import React from 'react';
 
-const MealToChoose = ({ meals, addMeal, alredyChosen }) => {
+const MealToChoose = ({ meals, addMeal, chosen }) => {
   const mealToChooseList = meals.map(meal => {
-    let numberOfChosen = alredyChosen.filter(id => String(id) === meal.id)
-      .length;
+    let countChosenMeal = chosen.filter(
+      chosenMeal => chosenMeal.key === meal.key
+    ).length;
 
-    const badge = numberOfChosen ? (
+    const badge = countChosenMeal ? (
       <span
         className="new badge teal lighten-5 black-text"
         data-badge-caption=""
       >
-        {numberOfChosen}
+        {countChosenMeal}
       </span>
     ) : null;
 
-    const active = numberOfChosen ? 'active' : '';
+    const active = countChosenMeal ? 'active' : '';
 
     return (
       <li
-        key={meal.id}
+        key={meal.key}
         onClick={() => addMeal(meal)}
         className={`collection-item ${active}`}
       >
@@ -33,7 +34,6 @@ const MealToChoose = ({ meals, addMeal, alredyChosen }) => {
       <li className="collection-header">
         <h4>Choose meal: </h4>
       </li>
-
       {mealToChooseList}
     </ul>
   );

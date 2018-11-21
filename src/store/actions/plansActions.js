@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-meals';
-import { fireBaseTransformId } from './utility';
+import { userKey } from '../../auth';
+
+import { flattenFireBaseObject } from './utility';
 
 // // SET CURRENT PLAN
 // const setCurrentPlan = currentId => ({
@@ -46,9 +48,16 @@ export const fetchPlansFaild = () => ({ type: actionTypes.FETCH_PLANS_FAILD });
 export const initPlans = () => {
   return dispatch => {
     axios
-      .get('plans.json')
+      .get(
+        `https://meal-planer.firebaseio.com/userObjects/plans/${userKey}.json`
+      )
       .then(res => {
-        const listOfPlans = fireBaseTransformId(res);
+        const listOfPlans = flattenFireBaseObject(res.data).map(plan => ({
+          ...plan,
+          meals: flattenFireBaseObject(plan.meals)
+        }));
+
+        console.log(listOfPlans);
         dispatch(setPlans(listOfPlans));
       })
       .catch(error => dispatch(fetchPlansFaild()));

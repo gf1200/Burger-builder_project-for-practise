@@ -1,18 +1,18 @@
 import React from 'react';
 import PrimaryBTN from '../../PrimaryBTN';
 
-const CollapsibleItem = ({ item, onCurrentSet }) => {
+const CollapsibleItem = ({ plan, onCurrentSet }) => {
   return (
     <li>
       <div className="collapsible-header">
         <i className="material-icons grey-text">more_vert</i>
-        {item.title}
+        {plan.title}
       </div>
       <div className="collapsible-body">
         <ul className="collection">
-          {item.meals.map(plan => (
-            <li key={plan.id} className="collection-item">
-              {plan.name}
+          {plan.meals.map((meal, index) => (
+            <li key={index} className="collection-item">
+              {meal.name}
             </li>
           ))}
           <li className="collection-item">
