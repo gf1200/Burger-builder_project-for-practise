@@ -4,34 +4,20 @@ import { userKey } from '../../auth';
 
 import { flattenFireBaseObject } from './utility';
 
-// // SET CURRENT PLAN
-// const setCurrentPlan = currentId => ({
-//   type: actionTypes.SET_CURRENT_PLAN,
-//   currentId
-// });
-
-export const putCurrentPlan = (currentPlan, plans) => {
+// SET CURRENT PLAN
+export const setCurrentPlan = planKey => ({
+  type: actionTypes.SET_CURRENT_PLAN,
+  planKey
+});
+export const initSetCurrentPlan = planKey => {
   return dispatch => {
-    const transformPlansToIdObj = {};
-
-    plans.reduce((acc, next) => {
-      acc[next.id] = { ...next, current: false };
-
-      return acc;
-    }, transformPlansToIdObj);
-
-    const updatePlans = {
-      ...transformPlansToIdObj,
-      [currentPlan.id]: {
-        ...currentPlan,
-        current: true
-      }
-    };
-
     axios
-      .put('plans.json', updatePlans)
+      .put(
+        `https://meal-planer.firebaseio.com/userObjects/currentPlan/${userKey}.json`,
+        { planKey }
+      )
       .then(response => {
-        dispatch(initPlans());
+        dispatch(setCurrentPlan(planKey));
       })
       .catch();
   };
@@ -42,9 +28,7 @@ const setPlans = listOfPlans => ({
   type: actionTypes.SET_PLANS,
   listOfPlans
 });
-
 export const fetchPlansFaild = () => ({ type: actionTypes.FETCH_PLANS_FAILD });
-
 export const initPlans = () => {
   return dispatch => {
     axios
@@ -56,8 +40,6 @@ export const initPlans = () => {
           ...plan,
           meals: flattenFireBaseObject(plan.meals)
         }));
-
-        console.log(listOfPlans);
         dispatch(setPlans(listOfPlans));
       })
       .catch(error => dispatch(fetchPlansFaild()));

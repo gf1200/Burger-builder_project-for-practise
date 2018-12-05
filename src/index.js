@@ -10,11 +10,13 @@ import thunk from 'redux-thunk';
 import plans from './store/reducers/plansReducer';
 import newPlan from './store/reducers/newPlanReducer';
 import meals from './store/reducers/mealsReducer';
+import currentPlan from './store/reducers/currentPlanReducer';
 
 const rootReducer = combineReducers({
   newPlan,
   meals,
-  plans
+  plans,
+  currentPlan
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

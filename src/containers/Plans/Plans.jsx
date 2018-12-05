@@ -8,25 +8,6 @@ import * as actions from '../../store/actions/index';
 import InfoBox from '../../components/UI/InfoBox';
 
 export class Plans extends Component {
-  state = {
-    landing: false
-  };
-
-  onCurrentSet(itom) {
-    console.log(itom);
-
-    // const current = {
-    //   currentPlan: id
-    // };
-
-    // axios
-    //   .put('user.json', current)
-    //   .then(response => {
-    //     this.setState({ loading: false });
-    //   })
-    //   .catch(err => this.setState({ loading: false }));
-  }
-
   componentDidMount() {
     this.props.loadPlans();
   }
@@ -60,8 +41,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loadPlans: () => dispatch(actions.initPlans()),
-    setCurrentPlan: (currentPlan, plans) =>
-      dispatch(actions.putCurrentPlan(currentPlan, plans))
+    setCurrentPlan: planKey => dispatch(actions.initSetCurrentPlan(planKey))
   };
 };
 
