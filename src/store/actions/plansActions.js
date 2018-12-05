@@ -1,15 +1,14 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-meals';
 import { userKey } from '../../auth';
-
 import { flattenFireBaseObject } from './utility';
 
 // SET CURRENT PLAN
-export const setCurrentPlan = planKey => ({
-  type: actionTypes.SET_CURRENT_PLAN,
+export const setCurrentPlanReceived = planKey => ({
+  type: actionTypes.SET_CURRENT_PLAN_RECEVIED,
   planKey
 });
-export const initSetCurrentPlan = planKey => {
+export const setCurrentPlanData = planKey => {
   return dispatch => {
     axios
       .put(
@@ -17,19 +16,19 @@ export const initSetCurrentPlan = planKey => {
         { planKey }
       )
       .then(response => {
-        dispatch(setCurrentPlan(planKey));
+        dispatch(setCurrentPlanReceived(planKey));
       })
       .catch();
   };
 };
 
-// FETCH PLANS
-const setPlans = listOfPlans => ({
-  type: actionTypes.SET_PLANS,
+// GET PLANS
+const getPlansReceived = listOfPlans => ({
+  type: actionTypes.GET_PLANS_RECEIVED,
   listOfPlans
 });
-export const fetchPlansFaild = () => ({ type: actionTypes.FETCH_PLANS_FAILD });
-export const initPlans = () => {
+export const getPlansError = () => ({ type: actionTypes.GET_PLANS_ERROR });
+export const getPlansData = () => {
   return dispatch => {
     axios
       .get(
@@ -40,8 +39,8 @@ export const initPlans = () => {
           ...plan,
           meals: flattenFireBaseObject(plan.meals)
         }));
-        dispatch(setPlans(listOfPlans));
+        dispatch(getPlansReceived(listOfPlans));
       })
-      .catch(error => dispatch(fetchPlansFaild()));
+      .catch(error => dispatch(getPlansError()));
   };
 };

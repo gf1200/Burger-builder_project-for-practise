@@ -8,12 +8,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_CURRENT_PLAN:
-      return updateObject(state, {});
-
-    case actionTypes.SET_PLANS:
+    case actionTypes.GET_PLANS_RECEIVED:
       return updateObject(state, { listOfPlans: action.listOfPlans });
-    case actionTypes.FETCH_PLANS_FAILD:
+
+    case actionTypes.GET_PLANS_ERROR:
       return updateObject(state, { error: true });
 
     default:

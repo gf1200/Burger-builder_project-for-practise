@@ -3,21 +3,21 @@ import axios from '../../axios-meals';
 import { userKey } from '../../auth';
 import { flattenFireBaseObject } from './utility';
 
-export const setMeals = meals => {
-  return { type: actionTypes.SET_MEALS, meals };
+const getMealsReceived = meals => {
+  return { type: actionTypes.GET_MEALS_RECEIVED, meals };
 };
 
-export const fetchMealsFaild = () => {
-  return { type: actionTypes.FETCH_MEALS_FAILD };
+const getMealsError = () => {
+  return { type: actionTypes.GET_MEALS_ERROR };
 };
-export const initMeals = () => {
+export const getMealsData = () => {
   return dispatch => {
     axios
       .get(`userObjects/meals/${userKey}.json`)
       .then(res => {
         const meals = flattenFireBaseObject(res.data);
-        dispatch(setMeals(meals));
+        dispatch(getMealsReceived(meals));
       })
-      .catch(error => dispatch(fetchMealsFaild()));
+      .catch(error => dispatch(getMealsError()));
   };
 };

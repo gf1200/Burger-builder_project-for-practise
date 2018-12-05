@@ -7,7 +7,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_CURRENT_PLAN:
+    case actionTypes.SET_CURRENT_PLAN_RECEVIED:
       return updateObject(state, { keyPlan: action.planKey });
 
     default:

@@ -9,7 +9,7 @@ export const loadCurrentPlanRequest = () => {
       .get(`userObjects/currentPlan/${userKey}.json`)
       .then(response => {
         if (response.data !== null) {
-          dispatch(actions.setCurrentPlan(response.data.planKey));
+          dispatch(actions.setCurrentPlanData(response.data.planKey));
         }
       })
       .catch(error => console.log(error));

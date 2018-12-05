@@ -40,8 +40,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadPlans: () => dispatch(actions.initPlans()),
-    setCurrentPlan: planKey => dispatch(actions.initSetCurrentPlan(planKey))
+    loadPlans: () => dispatch(actions.getPlansData()),
+    setCurrentPlan: planKey => dispatch(actions.setCurrentPlanData(planKey))
   };
 };
 

@@ -28,10 +28,10 @@ const reducer = (state = initialState, action) => {
         chosenMeals: removeItem(state.chosenMeals, action)
       });
 
-    case actionTypes.CREATE_NEW_PLAN_SUCCESS:
+    case actionTypes.SET_NEW_PLAN_RECEIVED:
       return updateObject(state, { planCreated: true, loading: false });
 
-    case actionTypes.CREATE_NEW_PLAN_FAILD:
+    case actionTypes.SET_NEW_PLAN_ERROR:
       return updateObject(state, { error: true, loading: false });
 
     case actionTypes.CREATE_NEW_PLAN_LOAD:

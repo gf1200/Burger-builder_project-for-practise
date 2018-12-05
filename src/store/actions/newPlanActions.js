@@ -10,16 +10,21 @@ export const addMeal = meal => {
 
 export const removeMeal = index => ({ type: actionTypes.REMOVE_MEAL, index });
 
-export const createNewPlanLoad = load => ({
+// SET NEW PLAN
+const createNewPlanLoad = load => ({
   type: actionTypes.CREATE_NEW_PLAN_LOAD,
   load
 });
 
-export const createNewPlanFaild = () => ({
-  type: actionTypes.CREATE_NEW_PLAN_FAILD
+const setNewPlanReceived = () => ({
+  type: actionTypes.SET_NEW_PLAN_RECEIVED
 });
 
-export const createNewPlanInit = (meals, title) => {
+const setNewPlanError = () => ({
+  type: actionTypes.SET_NEW_PLAN_ERROR
+});
+
+export const setNewPlanData = (meals, title) => {
   return dispatch => {
     dispatch(createNewPlanLoad(true));
     const newPlan = {
@@ -33,16 +38,12 @@ export const createNewPlanInit = (meals, title) => {
       )
       .then(response => {
         if (response === undefined) {
-          return dispatch(createNewPlanFaild());
+          return dispatch(setNewPlanError());
         }
-        dispatch(createNewPlanSuccess());
+        dispatch(setNewPlanReceived());
       })
       .catch(error => {
-        dispatch(createNewPlanFaild());
+        dispatch(setNewPlanError());
       });
   };
 };
-
-export const createNewPlanSuccess = () => ({
-  type: actionTypes.CREATE_NEW_PLAN_SUCCESS
-});

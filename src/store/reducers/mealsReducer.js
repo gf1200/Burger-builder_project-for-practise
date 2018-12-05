@@ -8,10 +8,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_MEALS:
+    case actionTypes.GET_MEALS_RECEIVED:
       return updateObject(state, { mealsList: action.meals });
 
-    case actionTypes.FETCH_MEALS_FAILD:
+    case actionTypes.GET_MEALS_ERROR:
       return updateObject(state, { error: true });
 
     default:

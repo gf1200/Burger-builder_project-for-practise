@@ -135,8 +135,8 @@ const mapDispatchToProps = dispatch => {
   return {
     initPlan: () => dispatch(actions.initPlan()),
     createNewPlan: (meals, title) =>
-      dispatch(actions.createNewPlanInit(meals, title)),
-    loadMeals: () => dispatch(actions.initMeals()),
+      dispatch(actions.setNewPlanData(meals, title)),
+    loadMeals: () => dispatch(actions.getMealsData()),
     onAddMeal: meal => dispatch(actions.addMeal(meal)),
     onDeleteMeal: index => dispatch(actions.removeMeal(index))
   };

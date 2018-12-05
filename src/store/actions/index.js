@@ -2,10 +2,10 @@ export {
   addMeal,
   removeMeal,
   initPlan,
-  createNewPlanInit
+  setNewPlanData
 } from './newPlanActions';
-export { initMeals } from './mealsActions';
+export { getMealsData } from './mealsActions';
 
-export { initPlans, initSetCurrentPlan, setCurrentPlan } from './plansActions';
+export { getPlansData, setCurrentPlanData } from './plansActions';
 
 export { loadCurrentPlanRequest } from './currentPlanActions';
