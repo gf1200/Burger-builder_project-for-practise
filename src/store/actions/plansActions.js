@@ -3,25 +3,6 @@ import axios from '../../axios-meals';
 import { userKey } from '../../auth';
 import { flattenFireBaseObject } from './utility';
 
-// SET CURRENT PLAN
-export const setCurrentPlanReceived = planKey => ({
-  type: actionTypes.SET_CURRENT_PLAN_RECEVIED,
-  planKey
-});
-export const setCurrentPlanData = planKey => {
-  return dispatch => {
-    axios
-      .put(
-        `https://meal-planer.firebaseio.com/userObjects/currentPlan/${userKey}.json`,
-        { planKey }
-      )
-      .then(response => {
-        dispatch(setCurrentPlanReceived(planKey));
-      })
-      .catch();
-  };
-};
-
 // GET PLANS
 const getPlansReceived = listOfPlans => ({
   type: actionTypes.GET_PLANS_RECEIVED,

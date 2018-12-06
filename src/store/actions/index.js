@@ -6,6 +6,9 @@ export {
 } from './newPlanActions';
 export { getMealsData } from './mealsActions';
 
-export { getPlansData, setCurrentPlanData } from './plansActions';
+export { getPlansData } from './plansActions';
 
-export { loadCurrentPlanRequest } from './currentPlanActions';
+export {
+  loadCurrentPlanRequest,
+  setCurrentPlanRequest
+} from './currentPlanActions';

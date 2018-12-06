@@ -15,6 +15,7 @@ export class Collapsible extends Component {
       <CollapsibleItem
         key={plan.key}
         plan={plan}
+        currentPlanKey={this.props.currentPlanKey}
         onCurrentSet={() => this.props.onCurrentSet(plan.key)}
       />
     ));

@@ -10,6 +10,7 @@ import InfoBox from '../../components/UI/InfoBox';
 export class Plans extends Component {
   componentDidMount() {
     this.props.loadPlans();
+    this.props.loadCurentPlan();
   }
   render() {
     let plans = this.props.plansError ? (
@@ -22,6 +23,7 @@ export class Plans extends Component {
     if (this.props.listOfPlans) {
       plans = (
         <Collapsible
+          currentPlanKey={this.props.currentPlanKey}
           onCurrentSet={this.props.setCurrentPlan}
           listOfPlans={this.props.listOfPlans}
         />
@@ -33,6 +35,7 @@ export class Plans extends Component {
 
 const mapStateToProps = state => {
   return {
+    currentPlanKey: state.currentPlan.keyPlan,
     listOfPlans: state.plans.listOfPlans,
     plansError: state.plans.error
   };
@@ -41,7 +44,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loadPlans: () => dispatch(actions.getPlansData()),
-    setCurrentPlan: planKey => dispatch(actions.setCurrentPlanData(planKey))
+    setCurrentPlan: planKey => dispatch(actions.setCurrentPlanRequest(planKey)),
+    loadCurentPlan: () => dispatch(actions.loadCurrentPlanRequest())
   };
 };
 

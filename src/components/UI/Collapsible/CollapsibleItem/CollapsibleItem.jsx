@@ -1,11 +1,14 @@
 import React from 'react';
-import PrimaryBTN from '../../PrimaryBTN';
 
-const CollapsibleItem = ({ plan, onCurrentSet }) => {
+const CollapsibleItem = ({ plan, onCurrentSet, currentPlanKey }) => {
+  const checkoBoxHandler = e => {
+    onCurrentSet();
+  };
+  const isCurrentPlan = plan.key === currentPlanKey ? true : false;
   return (
     <li>
-      <div className="collapsible-header">
-        <i className="material-icons grey-text">more_vert</i>
+      <div className={`collapsible-header ${isCurrentPlan ? 'teal teal-text text-lighten-5' : ''}`}>
+        <i className={`material-icons ${isCurrentPlan ? 'teal teal-text text-lighten-5' : 'grey-text'}`}>more_vert</i>
         {plan.title}
       </div>
       <div className="collapsible-body">
@@ -16,8 +19,13 @@ const CollapsibleItem = ({ plan, onCurrentSet }) => {
             </li>
           ))}
           <li className="collection-item">
-            <br />
-            <PrimaryBTN name="set curent" whenClicked={onCurrentSet} />
+            <div className="switch">
+              <label>
+                Set as current plan:
+                <input type="checkbox" checked={isCurrentPlan ? true : false} onChange={e => checkoBoxHandler(e)} />
+                <span className="lever" />
+              </label>
+            </div>
           </li>
         </ul>
       </div>
