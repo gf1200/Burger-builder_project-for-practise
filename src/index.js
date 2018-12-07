@@ -11,19 +11,18 @@ import plans from './store/reducers/plansReducer';
 import newPlan from './store/reducers/newPlanReducer';
 import meals from './store/reducers/mealsReducer';
 import currentPlan from './store/reducers/currentPlanReducer';
+import auth from './store/reducers/authReducer';
 
 const rootReducer = combineReducers({
   newPlan,
   meals,
   plans,
-  currentPlan
+  currentPlan,
+  auth
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
-);
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 const app = (
   <Provider store={store}>

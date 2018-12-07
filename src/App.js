@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import NewPlanBuilder from './containers/NewPlanBuilder/NewPlanBuilder';
 import CurrentPlan from './containers/CurrentPlan/CurrentPlan';
 import Plans from './containers/Plans/Plans';
+import Auth from './containers/Auth/Auth';
 
 class App extends Component {
   render() {
@@ -13,6 +14,8 @@ class App extends Component {
           <Route path="/" exact component={CurrentPlan} />
           <Route path="/plans" component={Plans} />
           <Route path="/add" component={NewPlanBuilder} />
+          <Route path="/signup" render={() => <Auth method="signup" />} />
+          <Route path="/login" render={() => <Auth method="login" />} />
         </Switch>
       </Layout>
     );

@@ -14,6 +14,8 @@ const NavigatIonItems = props => (
       <i className="material-icons left hide-on-med-and-down">add</i>
       Add
     </NavigationItem>
+    <NavigationItem link="/login">Log in</NavigationItem>
+    <NavigationItem link="/signup">Sign Up!</NavigationItem>
   </React.Fragment>
 );
 
