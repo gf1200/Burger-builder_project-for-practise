@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-meals';
-import { userKey } from '../../auth';
 
 export const initPlan = () => ({ type: actionTypes.INIT_PLAN });
 
@@ -24,18 +23,17 @@ const setNewPlanError = () => ({
   type: actionTypes.SET_NEW_PLAN_ERROR
 });
 
-export const setNewPlanData = (meals, title) => {
+export const setNewPlanData = (meals, title, userId, token) => {
   return dispatch => {
     dispatch(createNewPlanLoad(true));
     const newPlan = {
       title,
       meals
     };
+    let url = `https://meal-planer.firebaseio.com/userObjects/plans/${userId}.json?auth=${token}`;
+
     axios
-      .post(
-        `https://meal-planer.firebaseio.com/userObjects/plans/${userKey}.json`,
-        newPlan
-      )
+      .post(url, newPlan)
       .then(response => {
         if (response === undefined) {
           return dispatch(setNewPlanError());

@@ -9,8 +9,9 @@ import InfoBox from '../../components/UI/InfoBox';
 
 export class Plans extends Component {
   componentDidMount() {
-    this.props.loadPlans();
-    this.props.loadCurentPlan();
+    const { userId, token } = this.props;
+    this.props.loadPlans(userId, token);
+    this.props.loadCurentPlan(userId, token);
   }
   render() {
     let plans = this.props.plansError ? (
@@ -26,6 +27,8 @@ export class Plans extends Component {
           currentPlanKey={this.props.currentPlanKey}
           onCurrentSet={this.props.setCurrentPlan}
           listOfPlans={this.props.listOfPlans}
+          userId={this.props.userId}
+          token={this.props.token}
         />
       );
     }
@@ -37,15 +40,17 @@ const mapStateToProps = state => {
   return {
     currentPlanKey: state.currentPlan.keyPlan,
     listOfPlans: state.plans.listOfPlans,
-    plansError: state.plans.error
+    plansError: state.plans.error,
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadPlans: () => dispatch(actions.getPlansData()),
-    setCurrentPlan: planKey => dispatch(actions.setCurrentPlanRequest(planKey)),
-    loadCurentPlan: () => dispatch(actions.loadCurrentPlanRequest())
+    loadPlans: (userId, token) => dispatch(actions.getPlansData(userId, token)),
+    setCurrentPlan: (planKey, userId, token) => dispatch(actions.setCurrentPlanRequestInit(planKey, userId, token)),
+    loadCurentPlan: (userId, token) => dispatch(actions.loadCurrentPlanRequestInit(userId, token))
   };
 };
 

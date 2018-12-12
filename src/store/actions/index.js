@@ -3,6 +3,6 @@ export { getMealsData } from './mealsActions';
 
 export { getPlansData } from './plansActions';
 
-export { loadCurrentPlanRequest, setCurrentPlanRequest } from './currentPlanActions';
+export { loadCurrentPlanRequestInit, setCurrentPlanRequestInit } from './currentPlanActions';
 
-export { authRequestInit } from './authActions';
+export { authRequestInit, authLogout } from './authActions';

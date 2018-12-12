@@ -4,9 +4,10 @@ import * as actions from '../../store/actions/index';
 
 class CurrentPlan extends Component {
   componentDidMount() {
+    const { userId, token } = this.props;
     if (!this.props.plans && !this.props.isCurrentPlanKey) {
-      this.props.loadPlans();
-      this.props.loadCurentPlan();
+      this.props.loadPlans(userId, token);
+      this.props.loadCurentPlan(userId, token);
     }
   }
   render() {
@@ -22,9 +23,7 @@ class CurrentPlan extends Component {
     );
 
     if (this.props.isCurrentPlanKey && this.props.plans) {
-      let [currentPlan] = this.props.plans.filter(
-        plan => plan.key === this.props.isCurrentPlanKey
-      );
+      let [currentPlan] = this.props.plans.filter(plan => plan.key === this.props.isCurrentPlanKey);
       let mealsList = currentPlan.meals.map((meal, index) => (
         <li className="collection-item" key={index}>
           <div>{meal.name}</div>
@@ -44,14 +43,16 @@ class CurrentPlan extends Component {
 const mapStateToProps = state => {
   return {
     isCurrentPlanKey: state.currentPlan.keyPlan,
-    plans: state.plans.listOfPlans
+    plans: state.plans.listOfPlans,
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadPlans: () => dispatch(actions.getPlansData()),
-    loadCurentPlan: () => dispatch(actions.loadCurrentPlanRequest())
+    loadPlans: (userId, token) => dispatch(actions.getPlansData(userId, token)),
+    loadCurentPlan: (userId, token) => dispatch(actions.loadCurrentPlanRequestInit(userId, token))
   };
 };
 

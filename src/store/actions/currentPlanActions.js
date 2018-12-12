@@ -1,13 +1,13 @@
 import * as actionTypes from './actionTypes';
 
 import axios from '../../axios-meals';
-import { userKey } from '../../auth';
 
 // LOAD CURRENT PLAN
-export const loadCurrentPlanRequest = () => {
+export const loadCurrentPlanRequestInit = (userId, token) => {
   return dispatch => {
+    let url = `https://meal-planer.firebaseio.com/userObjects/currentPlan/${userId}.json?auth=${token}`;
     axios
-      .get(`userObjects/currentPlan/${userKey}.json`)
+      .get(url)
       .then(response => {
         if (response.data !== null) {
           dispatch(setCurrentPlanSucces(response.data.planKey));
@@ -18,18 +18,23 @@ export const loadCurrentPlanRequest = () => {
 };
 
 // SET CURRENT PLAN
-export const setCurrentPlanSucces = planKey => ({
+const setCurrentPlanSucces = planKey => ({
   type: actionTypes.SET_CURRENT_PLAN_SUCCES,
   planKey
 });
 
-export const setCurrentPlanRequest = planKey => {
+const setCurrentPlanFailure = error => ({ type: actionTypes.SET_CURRENT_PLAN_FAILURE, error });
+
+export const setCurrentPlanRequestInit = (planKey, userId, token) => {
   return dispatch => {
+    let url = `https://meal-planer.firebaseio.com/userObjects/currentPlan/${userId}.json?auth=${token}`;
     axios
-      .put(`https://meal-planer.firebaseio.com/userObjects/currentPlan/${userKey}.json`, { planKey })
+      .put(url, { planKey })
       .then(response => {
-        dispatch(setCurrentPlanSucces(planKey));
+        if (response.data !== null) {
+          dispatch(setCurrentPlanSucces(planKey));
+        }
       })
-      .catch();
+      .catch(error => dispatch(setCurrentPlanFailure(error)));
   };
 };

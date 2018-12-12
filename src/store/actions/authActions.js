@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
+export const authLogout = () => ({ type: actionTypes.AUTH_LOGOUT });
+
 const authRequest = () => {
   return { type: actionTypes.AUTH_REQUEST };
 };
@@ -34,7 +36,6 @@ export const authRequestInit = (email, password, method) => {
       })
       .catch(error => {
         dispatch(authFailure(error.response.data.error));
-        console.log(error);
       });
   };
 };

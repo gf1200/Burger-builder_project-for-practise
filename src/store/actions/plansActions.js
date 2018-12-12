@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-meals';
-import { userKey } from '../../auth';
 import { flattenFireBaseObject } from './utility';
 
 // GET PLANS
@@ -9,12 +8,11 @@ const getPlansReceived = listOfPlans => ({
   listOfPlans
 });
 export const getPlansError = () => ({ type: actionTypes.GET_PLANS_ERROR });
-export const getPlansData = () => {
+export const getPlansData = (userId, token) => {
   return dispatch => {
+    let url = `https://meal-planer.firebaseio.com/userObjects/plans/${userId}.json?auth=${token}`;
     axios
-      .get(
-        `https://meal-planer.firebaseio.com/userObjects/plans/${userKey}.json`
-      )
+      .get(url)
       .then(res => {
         const listOfPlans = flattenFireBaseObject(res.data).map(plan => ({
           ...plan,

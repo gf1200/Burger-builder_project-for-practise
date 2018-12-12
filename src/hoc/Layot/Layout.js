@@ -1,23 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Toolbar from './../../components/Navigation/Toolbar/Toolbar';
-// import style from './Layout.module'
+import SideNave from '../../components/Navigation/SIdeNave/SideNave';
+import ToolbarNav from '../../components/Navigation/ToolbarNav/ToolbarNav';
+import NavigatIonItems from '../../components/Navigation/NavigationItems/NavigatIonItems';
+import Footer from '../../components/Footer/Footer';
+import Container from '../../components/UI/Container/Container';
+import { connect } from 'react-redux';
 
-const layout = ({ children }) => (
-  <React.Fragment>
-    <Toolbar />
-    <main className="container">{children}</main>
+export class Layout extends Component {
+  render() {
+    const { children, isAuth } = this.props;
+    return (
+      <>
+        <Toolbar>
+          <ToolbarNav>
+            <NavigatIonItems isAuth={isAuth} />
+          </ToolbarNav>
+          <SideNave>
+            <NavigatIonItems isAuth={isAuth} />
+          </SideNave>
+        </Toolbar>
+        <main>
+          <Container>{children}</Container>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+}
 
-    <footer>
-      <div
-        className="footer-copyright teal lighten-5 valign-wrapper"
-        style={{ height: '4rem' }}
-      >
-        <div className="container center-align teal-text">
-          2018 Daily meals planner. Create by gf1200
-        </div>
-      </div>
-    </footer>
-  </React.Fragment>
-);
-
-export default layout;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.token !== null
+  };
+};
+export default connect(mapStateToProps)(Layout);

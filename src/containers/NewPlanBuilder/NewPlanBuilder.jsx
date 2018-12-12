@@ -31,11 +31,26 @@ class NewPlanBuilder extends Component {
   };
 
   componentDidMount() {
-    this.props.loadMeals();
+    const { token, userId } = this.props;
+    this.props.loadMeals(userId, token);
   }
 
   render() {
-    if (this.props.create || this.props.createError) {
+    const {
+      meals,
+      onDeleteMeal,
+      create,
+      onAddMeal,
+      createNewPlan,
+      chosenMeals,
+      mealsError,
+      createError,
+      userId,
+      token
+    } = this.props;
+    const { title } = this.state;
+
+    if (create || createError) {
       setTimeout(() => {
         this.props.initPlan();
         return this.props.history.push('/plans');
@@ -43,7 +58,7 @@ class NewPlanBuilder extends Component {
     }
 
     let mealToChoose = null;
-    let meals = this.props.mealsError ? (
+    let mealsList = mealsError ? (
       <InfoBox color="red">
         <p>Meals can't be loaded!</p>
       </InfoBox>
@@ -51,39 +66,24 @@ class NewPlanBuilder extends Component {
       <Spiner />
     );
 
-    if (this.props.meals) {
-      mealToChoose = (
-        <MealToChoose
-          chosen={this.props.chosenMeals}
-          meals={this.props.meals}
-          addMeal={this.props.onAddMeal}
-        />
-      );
-      meals = (
+    if (meals) {
+      mealToChoose = <MealToChoose chosen={chosenMeals} meals={meals} addMeal={onAddMeal} />;
+      mealsList = (
         <React.Fragment>
           <br />
-          <TextInput
-            value={this.state.title}
-            onChange={this.handleChangeTitle.bind(this)}
-          />
+          <TextInput value={title} onChange={this.handleChangeTitle.bind(this)} />
           <ChosenMeals
-            meals={this.props.chosenMeals}
-            deleteMeal={this.props.onDeleteMeal}
-            createClicked={() =>
-              this.props.createNewPlan(this.props.chosenMeals, this.state.title)
-            }
-            createDisable={
-              !this.props.chosenMeals.length || !this.state.title.length
-                ? true
-                : false
-            }
+            meals={chosenMeals}
+            deleteMeal={onDeleteMeal}
+            createClicked={() => createNewPlan(chosenMeals, title, userId, token)}
+            createDisable={!chosenMeals.length || !title.length ? true : false}
           />
         </React.Fragment>
       );
     }
 
-    if (this.props.loading || this.props.create) {
-      meals = this.props.create ? (
+    if (this.props.loading || create) {
+      mealsList = create ? (
         <InfoBox color="teal">
           <p>The plan has been saved in plans ...</p>
         </InfoBox>
@@ -92,8 +92,8 @@ class NewPlanBuilder extends Component {
       );
     }
 
-    if (this.props.createError) {
-      meals = (
+    if (createError) {
+      mealsList = (
         <InfoBox color="red">
           <p>The plan has't been saved ...</p>
         </InfoBox>
@@ -102,13 +102,8 @@ class NewPlanBuilder extends Component {
 
     return (
       <React.Fragment>
-        {meals}
-        <Modal
-          modalType="bottom-sheet"
-          modalId="modal1"
-          whenClosed={this.summaryClose.bind(this)}
-          isShow={true}
-        >
+        {mealsList}
+        <Modal modalType="bottom-sheet" modalId="modal1" whenClosed={this.summaryClose.bind(this)} isShow={true}>
           {mealToChoose}
           <ModalFoter>
             <ModalCloseBTN name="close" />
@@ -128,15 +123,16 @@ const mapStateToProps = state => {
     createError: state.newPlan.error,
     fetchError: state.meals.error,
     meals: state.meals.mealsList,
-    mealsError: state.meals.error
+    mealsError: state.meals.error,
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     initPlan: () => dispatch(actions.initPlan()),
-    createNewPlan: (meals, title) =>
-      dispatch(actions.setNewPlanData(meals, title)),
-    loadMeals: () => dispatch(actions.getMealsData()),
+    createNewPlan: (meals, title, userId, token) => dispatch(actions.setNewPlanData(meals, title, userId, token)),
+    loadMeals: (userId, token) => dispatch(actions.getMealsData(userId, token)),
     onAddMeal: meal => dispatch(actions.addMeal(meal)),
     onDeleteMeal: index => dispatch(actions.removeMeal(index))
   };

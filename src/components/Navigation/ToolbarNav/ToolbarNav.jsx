@@ -1,9 +1,5 @@
 import React from 'react';
-import NavigatIonItems from '../NavigationItems/NavigatIonItems';
-const ToolbarNav = props => (
-  <ul className="right hide-on-med-and-down">
-    <NavigatIonItems />
-  </ul>
-);
+
+const ToolbarNav = ({ children }) => <ul className="right hide-on-med-and-down">{children}</ul>;
 
 export default ToolbarNav;

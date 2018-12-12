@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Input from '../../components/UI/Input/Input';
 import * as actions from '../../store/actions/index';
@@ -87,12 +88,11 @@ class Auth extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    console.log(this.state.controls);
     this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.props.method);
   };
 
   render() {
-    const { method, loading, error } = this.props;
+    const { method, loading, error, isAuth } = this.props;
 
     const formElementsArray = [];
     for (let key in this.state.controls) {
@@ -131,6 +131,7 @@ class Auth extends Component {
         {errorMessage}
         <form onSubmit={this.submitHandler}>
           {form}
+          {isAuth ? <Redirect to="/" /> : null}
           <PrimaryBTN name={btnName} />
         </form>
       </div>
@@ -141,7 +142,8 @@ class Auth extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     loading: state.auth.load,
-    error: state.auth.error
+    error: state.auth.error,
+    isAuth: state.auth.token !== null
   };
 };
 
