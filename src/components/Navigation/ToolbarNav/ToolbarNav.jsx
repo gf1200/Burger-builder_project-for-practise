@@ -1,5 +1,5 @@
 import React from 'react';
 
-const ToolbarNav = ({ children }) => <ul className="right hide-on-med-and-down">{children}</ul>;
+const ToolbarNav = ({ children }) => <div className="navbar-end">{children}</div>;
 
 export default ToolbarNav;

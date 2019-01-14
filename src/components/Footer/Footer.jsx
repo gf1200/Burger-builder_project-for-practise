@@ -2,9 +2,11 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="footer-copyright teal lighten-5 valign-wrapper" style={{ height: '4rem' }}>
-        <div className="container center-align teal-text">2018 Daily meals planner. Create by gf1200</div>
+    <footer class="footer">
+      <div class="content has-text-centered is-small">
+        <p>
+          2018 Daily meals planner. Create by <strong>gf1200</strong>.
+        </p>
       </div>
     </footer>
   );

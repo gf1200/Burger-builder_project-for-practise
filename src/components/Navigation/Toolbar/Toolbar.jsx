@@ -1,23 +1,14 @@
 import React from 'react';
 
-import Logo from '../../Logo/Logo';
-
-import { Link } from 'react-router-dom';
+import Container from '../../UI/Container/Container';
+import Brand from '../../Brand/Brand';
 
 const toolbar = ({ children }) => (
-  <nav className="z-depth-1">
-    <div className="nav-wrapper teal ">
-      <div className="container">
-        <Link to="/" className="brand-logo left teal-text text-lighten-5">
-          <Logo size="4rem" />
-          Meal planner
-        </Link>
-        <a href="!#" data-target="mobile-demo" className="sidenav-trigger right">
-          <i className="material-icons">menu</i>
-        </a>
-        {children}
-      </div>
-    </div>
+  <nav className="navbar" role="navigation" aria-label="main navigation">
+    <Container>
+      <Brand />
+      {children}
+    </Container>
   </nav>
 );
 

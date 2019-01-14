@@ -9,6 +9,10 @@ import Auth from './containers/Auth/Auth';
 import Home from './components/Pages/Home';
 import Logout from './containers/Auth/Logout/Logout';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faClipboardList, faStar, faListUl, faPlus } from '@fortawesome/free-solid-svg-icons';
+library.add(faClipboardList, faStar, faListUl, faPlus);
+
 class App extends Component {
   render() {
     const { isAuth } = this.props;

@@ -7,35 +7,26 @@ const MealToChoose = ({ meals, addMeal, chosen }) => {
     ).length;
 
     const badge = countChosenMeal ? (
-      <span
-        className="new badge teal lighten-5 black-text"
-        data-badge-caption=""
-      >
-        {countChosenMeal}
-      </span>
+      <span className="tag is-primary is-rounded">{countChosenMeal}</span>
     ) : null;
 
-    const active = countChosenMeal ? 'active' : '';
+    const active = countChosenMeal ? 'is-active' : '';
 
     return (
-      <li
-        key={meal.key}
-        onClick={() => addMeal(meal)}
-        className={`collection-item ${active}`}
-      >
-        {meal.name}
-        {badge}
-      </li>
+      <div key={meal.key} onClick={() => addMeal(meal)} className={`media`}>
+        <div className="media-content">
+          <span className={`button is-white ${active}`}>{meal.name}</span>
+        </div>
+        <div className="media-right">{badge}</div>
+      </div>
     );
   });
 
   return (
-    <ul className="collection with-header">
-      <li className="collection-header">
-        <h4>Choose meal: </h4>
-      </li>
+    <>
+      <h1 className="title is-4">Choose meal: </h1>
       {mealToChooseList}
-    </ul>
+    </>
   );
 };
 

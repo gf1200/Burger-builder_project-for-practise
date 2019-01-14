@@ -2,142 +2,183 @@ import React, { Component } from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 import MealToChoose from './../../components/Menu/MealToChoose/MealToChoose';
 import axios from '../../axios-meals';
-import ModalCloseBTN from '../../components/UI/Modal/ModalCloseBTN';
-import ModalFoter from '../../components/UI/Modal/ModalFoter';
 import Spiner from './../../components/UI/Spiner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import AddBTN from '../../components/UI/AddBTN/AddBTN';
 import ChosenMeals from '../../components/Menu/ChosenMeals/ChosenMeals';
-import TextInput from '../../components/UI/TextInput';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
-import InfoBox from '../../components/UI/InfoBox';
+import Container from '../../components/UI/Container/Container';
 
 class NewPlanBuilder extends Component {
-  state = {
-    title: ''
-  };
+	state = {
+		newPlanTitle: '',
+		isModalOpen: false
+	};
 
-  handleChangeTitle(e) {
-    this.setState({ title: e.target.value });
-  }
+	handleModalOpen = () => {
+		this.setState({
+			...this.state,
+			isModalOpen: !this.state.isModalOpen
+		});
+	};
 
-  summaryHandler = () => {
-    this.setState({ summaryOpened: true });
-  };
+	handleChangeTitle(e) {
+		this.setState({ newPlanTitle: e.target.value });
+	}
 
-  summaryClose = () => {
-    this.setState({ summaryOpened: false });
-  };
+	componentDidMount() {
+		const { token, userId } = this.props;
+		this.props.loadMeals(userId, token);
+	}
 
-  componentDidMount() {
-    const { token, userId } = this.props;
-    this.props.loadMeals(userId, token);
-  }
+	render() {
+		const {
+			meals,
+			onDeleteMeal,
+			create,
+			onAddMeal,
+			createNewPlan,
+			chosenMeals,
+			mealsError,
+			createError,
+			userId,
+			token,
+			loading
+		} = this.props;
+		const { newPlanTitle, isModalOpen } = this.state;
 
-  render() {
-    const {
-      meals,
-      onDeleteMeal,
-      create,
-      onAddMeal,
-      createNewPlan,
-      chosenMeals,
-      mealsError,
-      createError,
-      userId,
-      token
-    } = this.props;
-    const { title } = this.state;
+		if (create || createError) {
+			setTimeout(() => {
+				this.props.initPlan();
+				return this.props.history.push('/plans');
+			}, 1600);
+		}
 
-    if (create || createError) {
-      setTimeout(() => {
-        this.props.initPlan();
-        return this.props.history.push('/plans');
-      }, 1600);
-    }
+		let mealToChoose = null;
+		let mealsList = mealsError ? (
+			<div className='notification is-danger'>
+				<p>Meals can't be loaded!</p>
+			</div>
+		) : (
+			<Spiner />
+		);
 
-    let mealToChoose = null;
-    let mealsList = mealsError ? (
-      <InfoBox color="red">
-        <p>Meals can't be loaded!</p>
-      </InfoBox>
-    ) : (
-      <Spiner />
-    );
+		let createPlanBtnClassName = 'button is-primary is-uppercase is-fullwidth';
+		if (loading) {
+			createPlanBtnClassName = `${createPlanBtnClassName} is-loading`;
+		}
 
-    if (meals) {
-      mealToChoose = <MealToChoose chosen={chosenMeals} meals={meals} addMeal={onAddMeal} />;
-      mealsList = (
-        <React.Fragment>
-          <br />
-          <TextInput value={title} onChange={this.handleChangeTitle.bind(this)} />
-          <ChosenMeals
-            meals={chosenMeals}
-            deleteMeal={onDeleteMeal}
-            createClicked={() => createNewPlan(chosenMeals, title, userId, token)}
-            createDisable={!chosenMeals.length || !title.length ? true : false}
-          />
-        </React.Fragment>
-      );
-    }
+		if (meals) {
+			mealToChoose = <MealToChoose chosen={chosenMeals} meals={meals} addMeal={onAddMeal} />;
+			mealsList = (
+				<div class='box'>
+					<div className='level'>
+						<div className='level-left'>
+							<div className='field'>
+								<input
+									placeholder='Plan title'
+									type='text'
+									value={newPlanTitle}
+									className='input'
+									onChange={this.handleChangeTitle.bind(this)}
+								/>
+							</div>
+						</div>
+						<div className='level-right'>
+							<button
+								className='button open-modal-button is-primary is-outlined is-fullwidth is-uppercase'
+								onClick={this.handleModalOpen}
+							>
+								Add meals
+							</button>
+						</div>
+					</div>
+					<div className='columns is-multiline is-centered'>
+						<div className='column is-12'>
+							<ChosenMeals meals={chosenMeals} deleteMeal={onDeleteMeal} />
+						</div>
+						<div className='column is-half'>
+							<div className='field '>
+								<button
+									href='#!'
+									className={createPlanBtnClassName}
+									onClick={() =>
+										createNewPlan(
+											chosenMeals,
+											newPlanTitle,
+											userId,
+											token
+										)
+									}
+									disabled={
+										!chosenMeals.length || !newPlanTitle.length
+											? true
+											: false
+									}
+								>
+									Create new plan
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			);
+		}
 
-    if (this.props.loading || create) {
-      mealsList = create ? (
-        <InfoBox color="teal">
-          <p>The plan has been saved in plans ...</p>
-        </InfoBox>
-      ) : (
-        <Spiner />
-      );
-    }
+		if (create) {
+			mealsList = (
+				<div className='notification is-success'>
+					<p>The plan has been saved in plans ...</p>
+				</div>
+			);
+		}
 
-    if (createError) {
-      mealsList = (
-        <InfoBox color="red">
-          <p>The plan has't been saved ...</p>
-        </InfoBox>
-      );
-    }
+		if (createError) {
+			mealsList = (
+				<div className='notification is-danger'>
+					<p>The plan has't been saved ...</p>
+				</div>
+			);
+		}
 
-    return (
-      <React.Fragment>
-        {mealsList}
-        <Modal modalType="bottom-sheet" modalId="modal1" whenClosed={this.summaryClose.bind(this)} isShow={true}>
-          {mealToChoose}
-          <ModalFoter>
-            <ModalCloseBTN name="close" />
-          </ModalFoter>
-        </Modal>
-        <AddBTN modalShow={this.summaryHandler} target="modal1" />
-      </React.Fragment>
-    );
-  }
+		return (
+			<section className='section'>
+				<Container>
+					<h1 className='title'>Set up a new plan</h1>
+					{mealsList}
+					<Modal open={isModalOpen} close={this.handleModalOpen.bind(this)}>
+						<div className='box'> {mealToChoose}</div>
+					</Modal>
+				</Container>
+			</section>
+		);
+	}
 }
 
 const mapStateToProps = state => {
-  return {
-    chosenMeals: state.newPlan.chosenMeals,
-    create: state.newPlan.planCreated,
-    loading: state.newPlan.loading,
-    createError: state.newPlan.error,
-    fetchError: state.meals.error,
-    meals: state.meals.mealsList,
-    mealsError: state.meals.error,
-    token: state.auth.token,
-    userId: state.auth.userId
-  };
+	return {
+		chosenMeals: state.newPlan.chosenMeals,
+		create: state.newPlan.planCreated,
+		loading: state.newPlan.loading,
+		createError: state.newPlan.error,
+		fetchError: state.meals.error,
+		meals: state.meals.mealsList,
+		mealsError: state.meals.error,
+		token: state.auth.token,
+		userId: state.auth.userId
+	};
 };
 const mapDispatchToProps = dispatch => {
-  return {
-    initPlan: () => dispatch(actions.initPlan()),
-    createNewPlan: (meals, title, userId, token) => dispatch(actions.setNewPlanData(meals, title, userId, token)),
-    loadMeals: (userId, token) => dispatch(actions.getMealsData(userId, token)),
-    onAddMeal: meal => dispatch(actions.addMeal(meal)),
-    onDeleteMeal: index => dispatch(actions.removeMeal(index))
-  };
+	return {
+		initPlan: () => dispatch(actions.initPlan()),
+		createNewPlan: (meals, newPlanTitle, userId, token) =>
+			dispatch(actions.setNewPlanData(meals, newPlanTitle, userId, token)),
+		loadMeals: (userId, token) => dispatch(actions.getMealsData(userId, token)),
+		onAddMeal: meal => dispatch(actions.addMeal(meal)),
+		onDeleteMeal: index => dispatch(actions.removeMeal(index))
+	};
 };
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(withErrorHandler(NewPlanBuilder, axios));

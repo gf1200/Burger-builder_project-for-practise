@@ -1,11 +1,10 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const logo = ({ size }) => (
-  <i
-    className="material-icons left teal-text text-lighten-5"
-    style={{ fontSize: size }}
-  >
-    playlist_add_check
-  </i>
+  <span class="icon is-large">
+    <FontAwesomeIcon icon="clipboard-list" size="3x" />
+  </span>
 );
+
 export default logo;

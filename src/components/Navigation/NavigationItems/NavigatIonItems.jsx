@@ -1,28 +1,43 @@
 import React from 'react';
 import NavigationItem from './../NavigationItem/NavigationItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const NavigatIonItems = ({ isAuth }) => (
   <>
     {isAuth ? (
-      <>
-        <NavigationItem link="/">
-          <i className="material-icons left hide-on-med-and-down">star_border</i>
-          Current
+      <div className="navbar-item">
+        <NavigationItem link="/" hasClass="button is-white">
+          <span class="icon">
+            <FontAwesomeIcon icon="star" />
+          </span>
+          <span>Current</span>
         </NavigationItem>
-        <NavigationItem link="/plans">
-          <i className="material-icons left hide-on-med-and-down">list</i>
-          Plans
+        <NavigationItem link="/plans" hasClass="button is-white">
+          <span class="icon">
+            <FontAwesomeIcon icon="list-ul" />
+          </span>
+          <span>Plans</span>
         </NavigationItem>
-        <NavigationItem link="/add">
-          <i className="material-icons left hide-on-med-and-down">add</i>
-          Add
+        <NavigationItem link="/add" hasClass="button is-white">
+          <span class="icon">
+            <FontAwesomeIcon icon="plus" />
+          </span>
+          <span>Add</span>
         </NavigationItem>
-        <NavigationItem link="/logout">Logout</NavigationItem>
-      </>
+        <NavigationItem link="/logout" hasClass="button is-white">
+          <span>Logout</span>
+        </NavigationItem>
+      </div>
     ) : (
-      <>
-        <NavigationItem link="/login">Log in</NavigationItem>
-        <NavigationItem link="/signup">Sign Up!</NavigationItem>
-      </>
+      <div class="navbar-item">
+        <div class="buttons">
+          <NavigationItem link="/login" hasClass="button">
+            Log in
+          </NavigationItem>
+          <NavigationItem link="/signup" hasClass="button  is-primary">
+            <strong>Sign Up</strong>
+          </NavigationItem>
+        </div>
+      </div>
     )}
   </>
 );
